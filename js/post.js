@@ -1,0 +1,167 @@
+// post.js – Página de artigo individual com capa responsiva (fixo 16/9)
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get("id"), 10);
+
+  const container = document.getElementById("article-content");
+  if (!container) return;
+
+  // Skeleton inicial (CLS fix)
+  container.classList.add("loading");
+  container.innerHTML = `
+    <div class="skeleton skel-cover"></div>
+    <div class="skeleton skel-title"></div>
+    <div class="skeleton skel-meta"></div>
+  `;
+
+  // Util: <picture> responsivo
+  function buildResponsiveImage(basePath, alt, width = 800, height = 450) {
+    const baseUrl = new URL(basePath, location.origin).href;
+    return `
+      <figure class="article-media">
+        <picture>
+          <source type="image/webp"
+                  srcset="${baseUrl}-400.webp 400w, ${baseUrl}-800.webp 800w"
+                  sizes="(max-width: 768px) 100vw, 800px">
+          <source type="image/jpeg"
+                  srcset="${baseUrl}-400.jpg 400w, ${baseUrl}-800.jpg 800w"
+                  sizes="(max-width: 768px) 100vw, 800px">
+         <img class="article-cover"
+                  src="${basePath}-800.jpg"
+                  alt="${alt || "Capa do artigo"}"
+                  width="${width}" height="${height}"
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async" />
+        </picture>
+      </figure>
+    `;
+  }
+
+  // SEO: injeta/atualiza meta tags dinamicamente
+  function setMetaTag(sel, attr, value) {
+    let el = document.querySelector(sel);
+    if (!el) {
+      el = document.createElement("meta");
+      if (sel.startsWith('meta[name="')) {
+        const name = sel.match(/meta\\[name="(.+?)"\\]/)?.[1];
+        if (name) el.setAttribute("name", name);
+      } else if (sel.startsWith('meta[property="')) {
+        const prop = sel.match(/meta\\[property="(.+?)"\\]/)?.[1];
+        if (prop) el.setAttribute("property", prop);
+      }
+      document.head.appendChild(el);
+    }
+    el.setAttribute(attr, value);
+  }
+
+  // Atualiza <link rel="canonical">
+  function setCanonical(url) {
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", url);
+  }
+
+  // Carrega artigos
+  fetch("articles.json", { cache: "force-cache" })
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao carregar JSON");
+      return res.json();
+    })
+    .then(data => {
+      if (!id || isNaN(id)) throw new Error("Artigo inválido");
+      const article = data.find(a => a.id === id && a.status === "published");
+      if (!article) throw new Error("Artigo não encontrado");
+
+      // Título da aba
+      document.title = `${article.title} | Blog – Ismael Nunes`;
+
+      // Capa + conteúdo
+      const cover = buildResponsiveImage(article.image, article.title,
+        article.coverW || 800, article.coverH || 450);
+
+      const metaHtml = `
+        <header class="article-header">
+          <h1 class="article-title">${article.title}</h1>
+          <p class="article-meta">
+            <span>${article.author || "Ismael Nunes"}</span> ·
+            <time datetime="${article.date}">${article.date}</time> ·
+            <span>${article.readTime || ""}</span>
+          </p>
+        </header>
+      `;
+
+      // Render Markdown → HTML
+      const htmlContent =
+        (window.marked ? window.marked.parse(article.content || "") : article.content || "")
+          .replaceAll("<table>", '<div class="table-responsive"><table>')
+          .replaceAll("</table>", "</table></div>");
+
+      container.innerHTML = `
+        ${cover}
+        ${metaHtml}
+        <div class="article-content">${htmlContent}</div>
+        ${renderTags(article.tags)}
+        ${renderReferences(article.references)}
+        <a href="blog.html" class="back-button" aria-label="Voltar para a lista de artigos">← Voltar ao Blog</a>
+      `;
+      container.classList.remove("loading");
+      container.removeAttribute("aria-busy");
+
+      // Prism para destaques de código
+      if (window.Prism) window.Prism.highlightAll();
+
+      // SEO: meta dinâmicos
+      const pageUrl = new URL(window.location.href);
+      setCanonical(pageUrl.href);
+      setMetaTag('meta[name="description"]', "content", article.excerpt || article.title);
+      setMetaTag('meta[property="og:title"]', "content", article.title);
+      setMetaTag('meta[property="og:description"]', "content", article.excerpt || article.title);
+
+      const ogImage = new URL(`${article.image}-800.jpg`, location.origin).href;
+      setMetaTag('meta[property="og:image"]', "content", ogImage);
+      setMetaTag('meta[name="twitter:title"]', "content", article.title);
+      setMetaTag('meta[name="twitter:description"]', "content", article.excerpt || article.title);
+      setMetaTag('meta[name="twitter:image"]', "content", ogImage);
+    })
+    .catch(err => {
+      container.innerHTML = `
+    <div class="article-content" role="alert">
+      <h2>Artigo não encontrado</h2>
+      <p>Ops! O artigo solicitado não foi encontrado.</p>
+      <a href="blog.html" class="back-button ghost" aria-label="Voltar para a lista de artigos">
+  <i class="fas fa-arrow-left" aria-hidden="true"></i> <span>Voltar ao Blog</span>
+</a>
+
+    </div>
+  `;
+      container.classList.remove("loading");
+      console.error(err);
+    });
+
+  // Helpers
+  function renderTags(tags = []) {
+    if (!tags.length) return "";
+    return `
+      <div class="tags">
+        ${tags.map(t => `<a class="tag" aria-label="Tag ${t}" href="blog.html?tag=${encodeURIComponent(t.toLowerCase())}">#${t}</a>`).join(" ")}
+      </div>
+    `;
+  }
+
+  function renderReferences(refs = []) {
+    if (!refs.length) return "";
+    return `
+      <aside class="article-references">
+        <h3>Referências</h3>
+        <ul>
+          ${refs.map(u => `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`).join("")}
+        </ul>
+      </aside>
+    `;
+  }
+})();

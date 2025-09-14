@@ -1,0 +1,216 @@
+/* ==========================================
+   BLOG LISTAGEM & POSTS – Consistente com Artigos
+========================================== */
+
+/* Blog geral */
+.blog {
+  padding: 120px 0 80px; /* espaço extra por causa da navbar fixa */
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Títulos da seção */
+.blog h1.section-title {
+  font-size: clamp(2.2rem, 1.5rem + 1.2vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.blog .section-subtitle {
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Grid de artigos */
+.posts-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) { .posts-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) and (max-width: 1023px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px) { .posts-grid { grid-template-columns: 1fr; } }
+
+/* Card de artigo */
+.post-card {
+  background: var(--panel);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform var(--t-base), box-shadow var(--t-base);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+}
+.post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Imagem do card */
+.post-image {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+.post-card:hover .post-image img { transform: scale(1.05); }
+
+/* Badge da categoria */
+.post-category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+/* Conteúdo do card */
+.post-content {
+  padding: 1rem 1.25rem;
+  flex-grow: 1;
+}
+.post-card h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 1rem;
+  line-height: 1.4;
+  border-left: 4px solid var(--primary);
+  padding-left: .5rem;
+}
+.post-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+.post-excerpt {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+/* Metadados */
+.post-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.author-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Campo de busca */
+.search-label {
+  display: block;
+  text-align: center;
+  margin: 0.5rem auto 0.25rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+#searchInput {
+  display: block;
+  margin: 0 auto 2rem;
+  max-width: 400px;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color var(--t-fast);
+}
+#searchInput:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+}
+.page-numbers {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.page-numbers:hover,
+.page-numbers.current {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Skeleton loader */
+.post-card.skeleton {
+  height: 280px;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, #e5e7eb20 25%, #ffffff10 37%, #e5e7eb20 63%);
+  background-size: 400% 100%;
+  animation: sk 1.2s ease-in-out infinite;
+}
+@keyframes sk { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* Banner & categorias */
+.post-title-banner {
+  padding:.75rem 1.25rem;
+  background: var(--panel);
+  border-bottom:1px solid var(--border);
+}
+.post-title-banner h2 {
+  margin:0; font-size:1.08rem; line-height:1.35;
+}
+.post-title-banner h2 a {
+  text-decoration:none; color:inherit;
+}
+
+.category-react   { background:linear-gradient(90deg,#22d3ee22,#818cf822); }
+.category-ia      { background:linear-gradient(90deg,#a78bfa22,#60a5fa22); }
+.category-pwa     { background:linear-gradient(90deg,#34d39922,#60a5fa22); }
+.category-carreira{ background:linear-gradient(90deg,#f59e0b22,#f472b622); }
+.category-default { background:linear-gradient(90deg,#94a3b822,#cbd5e122); }
+/* ===== Correção de CLS nas imagens ===== */
+.post-image {
+  aspect-ratio: 16 / 9; /* Reserva espaço */
+  overflow: hidden;
+  background: var(--border);
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

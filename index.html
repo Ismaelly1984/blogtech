@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.emailjs.com 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:;
+    img-src 'self' data:;
+    connect-src 'self' https://cdn.emailjs.com;
+    object-src 'none';
+  ">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Blog | Ismael Nunes - Desenvolvedor Full Stack</title>
+  <meta name="description" content="Artigos sobre React, Node.js, PWA e IA Generativa escritos por Ismael Nunes, desenvolvedor full stack em São Paulo." />
+  <link rel="canonical" href="https://ismaelly1984.github.io/portif-lio/blog.html" />
+
+  <!-- Performance: pré-conexões -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- CSS base + blog -->
+  <link rel="stylesheet" href="css/blog-base.css?v=6" />
+  <link rel="stylesheet" href="css/blog.css?v=3" />
+
+  <!-- Google Fonts otimizado -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap">
+
+  <!-- Pré-carrega tema salvo -->
+  <script>
+    (function () {
+      try {
+        const root = document.documentElement;
+        const stored = localStorage.getItem("theme");
+        const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = stored || (sysDark ? "dark" : "light");
+        root.setAttribute("data-theme", theme);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Font Awesome não-bloqueante -->
+ <link rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      as="style"
+      crossorigin="anonymous"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        crossorigin="anonymous">
+</noscript>
+
+</head>
+
+<body>
+ <header>
+  <nav class="navbar" aria-label="Barra de navegação">
+    <div class="container">
+      <!-- Logo -->
+      <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
+
+      <!-- Navegação -->
+      <ul id="primary-navigation" class="nav-menu" role="menubar">
+        <li role="none">
+          <a role="menuitem" href="blog.html" class="nav-link" aria-current="page">Início do Blog</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="index.html" class="nav-link">Portfólio</a>
+        </li>
+        <li role="none">
+          <button id="darkToggle" type="button" aria-label="Alternar modo escuro" class="btn-icon">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Botão hambúrguer (mobile) -->
+      <button
+        id="menuToggle"
+        class="hamburger"
+        type="button"
+        aria-controls="primary-navigation"
+        aria-expanded="false"
+        aria-label="Abrir menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+  <!-- LISTAGEM -->
+  <main class="blog" style="padding-top:100px">
+    <section class="container">
+      <h1 class="section-title">Blog de Tecnologia</h1>
+
+      <label class="search-label" for="searchInput">Buscar artigo:</label>
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Título ou tag..."
+        aria-label="Buscar artigos por título ou tag"
+      />
+
+      <p class="section-subtitle">
+        Artigos sobre <strong>React, Node.js, PWA e IA Generativa</strong>
+      </p>
+
+      <div id="articles-container" class="posts-grid"></div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+  <div class="container footer-grid">
+    <!-- Coluna 1: Logo / Branding -->
+    <div class="footer-brand">
+      <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
+      <p class="footer-tagline">Construindo experiências digitais com React, Node.js e IA Generativa.</p>
+    </div>
+
+    <!-- Coluna 2: Links rápidos -->
+    <nav class="footer-links" aria-label="Links rápidos">
+      <h3>Navegação</h3>
+      <ul>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="index.html">Portfólio</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+
+    <!-- Coluna 3: Contatos -->
+    <div class="footer-contact">
+      <h3>Contato</h3>
+      <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
+      <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener">+55 (14) 99192-0560</a></p>
+    </div>
+
+    <!-- Coluna 4: Redes sociais -->
+    <div class="social-links" aria-label="Redes sociais">
+      <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ismaelly1984" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://wa.me/5514991920560" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Ismael Nunes dos Santos — Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/blog.js?v=8" defer></script>
+
+
+  <!-- Font Awesome pós-load -->
+  <script>
+    window.addEventListener("load", function () {
+      var l = document.createElement("link");
+      l.rel = "stylesheet";
+      l.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+      l.crossOrigin = "anonymous";
+      l.referrerPolicy = "no-referrer";
+      document.head.appendChild(l);
+    });
+  </script>
+
+  <noscript>Ative o JavaScript para melhor experiência.</noscript>
+</body>
+</html>
