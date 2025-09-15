@@ -50,20 +50,6 @@
   --shadow-lg: 0 16px 40px rgba(0,0,0,.6);
 }
 
-/* ===== Blue Mode ===== */
-:root[data-theme="blue"] {
-  --primary: #3b82f6;   /* blue-500 */
-  --secondary: #06b6d4; /* cyan-500 */
-  --bg: #0f172a;
-  --text: #f1f5f9;
-  --muted: #cbd5e1;
-  --border: #1e3a8a;
-  --panel: #1e40af;
-
-  --shadow: 0 8px 24px rgba(30,58,138,.6);
-  --shadow-lg: 0 16px 40px rgba(30,58,138,.7);
-}
-
 /* =========================================================
    Reset e Normalização
 ========================================================= */

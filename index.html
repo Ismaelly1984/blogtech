@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="
@@ -14,7 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Blog | Ismael Nunes - Desenvolvedor Full Stack</title>
-  <meta name="description" content="Artigos sobre React, Node.js, PWA e IA Generativa escritos por Ismael Nunes, desenvolvedor full stack em São Paulo." />
+  <meta name="description"
+    content="Artigos sobre React, Node.js, PWA e IA Generativa escritos por Ismael Nunes, desenvolvedor full stack em São Paulo." />
   <!-- Canonical corrigido -->
   <link rel="canonical" href="https://ismaelly1984.github.io/blogtech/" />
 
@@ -39,59 +41,54 @@
         const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const theme = stored || (sysDark ? "dark" : "light");
         root.setAttribute("data-theme", theme);
-      } catch (e) {}
+      } catch (e) { }
     })();
   </script>
 
   <!-- Font Awesome não-bloqueante -->
- <link rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      as="style"
-      crossorigin="anonymous"
-      onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        crossorigin="anonymous">
-</noscript>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style"
+    crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      crossorigin="anonymous">
+  </noscript>
 </head>
 
 <body>
- <header>
-  <nav class="navbar" aria-label="Barra de navegação">
-    <div class="container">
-      <!-- Logo -->
-      <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
+  <header>
+    <nav class="navbar" aria-label="Barra de navegação">
+      <div class="container">
+        <!-- Logo -->
+        <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
 
-      <!-- Navegação -->
-      <ul id="primary-navigation" class="nav-menu" role="menubar">
-        <li role="none">
-          <a role="menuitem" href="index.html" class="nav-link" aria-current="page">Início do Blog</a>
-        </li>
-        <li role="none">
-          <a role="menuitem" href="https://ismaelly1984.github.io/portif-lio/" class="nav-link" target="_blank" rel="noopener noreferrer">Portfólio</a>
-        </li>
-        <li role="none">
-          <button id="darkToggle" type="button" aria-label="Alternar modo escuro" class="btn-icon">
-            <i class="fas fa-moon" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+        <!-- Navegação -->
+        <ul id="primary-navigation" class="nav-menu" role="menubar">
+          <li role="none">
+            <a role="menuitem" href="index.html" class="nav-link" aria-current="page">Início do Blog</a>
+          </li>
+          <li role="none">
+            <a role="menuitem" href="https://ismaelly1984.github.io/portif-lio/" class="nav-link" target="_blank"
+              rel="noopener noreferrer">Portfólio</a>
+          </li>
+          <li role="none">
+            <button id="darkToggle" type="button" aria-label="Alternar modo escuro" class="btn-icon">
+              <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+          <li role="none">
+        
+          </li>
 
-      <!-- Botão hambúrguer -->
-      <button
-        id="menuToggle"
-        class="hamburger"
-        type="button"
-        aria-controls="primary-navigation"
-        aria-expanded="false"
-        aria-label="Abrir menu"
-      >
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-</header>
+          </li>
+        </ul>
+
+        <!-- Botão hambúrguer -->
+        <button id="menuToggle" class="hamburger" type="button" aria-controls="primary-navigation" aria-expanded="false"
+          aria-label="Abrir menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
 
   <!-- LISTAGEM -->
   <main class="blog" style="padding-top:100px">
@@ -99,12 +96,8 @@
       <h1 class="section-title">Blog de Tecnologia</h1>
 
       <label class="search-label" for="searchInput">Buscar artigo:</label>
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Título ou tag..."
-        aria-label="Buscar artigos por título ou tag"
-      />
+      <input type="search" id="searchInput" placeholder="Título ou tag..."
+        aria-label="Buscar artigos por título ou tag" />
 
       <p class="section-subtitle">
         Artigos sobre <strong>React, Node.js, PWA e IA Generativa</strong>
@@ -116,42 +109,46 @@
 
   <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
-  <div class="container footer-grid">
-    <!-- Branding -->
-    <div class="footer-brand">
-      <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
-      <p class="footer-tagline">Construindo experiências digitais com React, Node.js e IA Generativa.</p>
+    <div class="container footer-grid">
+      <!-- Branding -->
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
+        <p class="footer-tagline">Construindo experiências digitais com React, Node.js e IA Generativa.</p>
+      </div>
+
+      <!-- Links -->
+      <nav class="footer-links" aria-label="Links rápidos">
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="index.html">Blog</a></li>
+          <li><a href="https://ismaelly1984.github.io/portif-lio/" target="_blank"
+              rel="noopener noreferrer">Portfólio</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contatos -->
+      <div class="footer-contact">
+        <h3>Contato</h3>
+        <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
+        <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer">+55 (14) 99192-0560</a></p>
+      </div>
+
+      <!-- Redes sociais -->
+      <div class="social-links" aria-label="Redes sociais">
+        <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" rel="noopener noreferrer"
+          aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/Ismaelly1984" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i
+            class="fab fa-github"></i></a>
+        <a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i
+            class="fab fa-whatsapp"></i></a>
+      </div>
     </div>
 
-    <!-- Links -->
-    <nav class="footer-links" aria-label="Links rápidos">
-      <h3>Navegação</h3>
-      <ul>
-        <li><a href="index.html">Blog</a></li>
-        <li><a href="https://ismaelly1984.github.io/portif-lio/" target="_blank" rel="noopener noreferrer">Portfólio</a></li>
-        <li><a href="#contato">Contato</a></li>
-      </ul>
-    </nav>
-
-    <!-- Contatos -->
-    <div class="footer-contact">
-      <h3>Contato</h3>
-      <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
-      <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer">+55 (14) 99192-0560</a></p>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ismael Nunes dos Santos — Todos os direitos reservados.</p>
     </div>
-
-    <!-- Redes sociais -->
-    <div class="social-links" aria-label="Redes sociais">
-      <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="https://github.com/Ismaelly1984" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; 2025 Ismael Nunes dos Santos — Todos os direitos reservados.</p>
-  </div>
-</footer>
+  </footer>
 
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
@@ -172,4 +169,5 @@
   </script>
   <noscript>Ative o JavaScript para melhor experiência.</noscript>
 </body>
+
 </html>

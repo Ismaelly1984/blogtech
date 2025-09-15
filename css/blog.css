@@ -201,16 +201,71 @@
 .category-pwa     { background:linear-gradient(90deg,#34d39922,#60a5fa22); }
 .category-carreira{ background:linear-gradient(90deg,#f59e0b22,#f472b622); }
 .category-default { background:linear-gradient(90deg,#94a3b822,#cbd5e122); }
+
 /* ===== Correção de CLS nas imagens ===== */
 .post-image {
   aspect-ratio: 16 / 9; /* Reserva espaço */
   overflow: hidden;
   background: var(--border);
 }
-
 .post-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* ==========================================
+   Destaques (featured posts)
+========================================== */
+
+.post-card.featured {
+  border: 2px solid var(--primary);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+/* Badge "Destaque" sobre a imagem */
+.post-card.featured .post-image::before {
+  content: "Destaque";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  z-index: 2;
+  box-shadow: var(--shadow);
+}
+
+/* Featured ocupa linha inteira no desktop */
+@media (min-width: 1024px) {
+  .posts-grid .post-card.featured:first-child {
+    grid-column: 1 / -1; /* ocupa toda a linha */
+  }
+}
+
+
+/* ==========================================
+   Tipografia hierárquica (Poppins + Inter)
+========================================== */
+
+/* Títulos usam Poppins */
+h1, h2, h3, h4, h5, h6,
+.article-title,
+.post-title-banner h2 a,
+.section-title {
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Corpo do texto usa Inter */
+body, p, li, a, .post-excerpt, .article-content, .footer, .nav-link {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
 }
