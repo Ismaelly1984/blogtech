@@ -65,10 +65,17 @@
   }
 
   // Reagir a mudanças do sistema (apenas se não houver escolha salva)
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  const onPrefersColorChange = (e) => {
     const stored = localStorage.getItem("theme");
     if (!stored) {
       setTheme(e.matches ? "dark" : "light");
     }
-  });
+  };
+  if (typeof mql.addEventListener === "function") {
+    mql.addEventListener("change", onPrefersColorChange);
+  } else if (typeof mql.addListener === "function") {
+    // Safari antigos
+    mql.addListener(onPrefersColorChange);
+  }
 })();

@@ -93,10 +93,11 @@
         </header>
       `;
 
-      const htmlContent =
-        (window.marked ? window.marked.parse(article.content || "") : article.content || "")
-          .replaceAll("<table>", '<div class="table-responsive"><table>')
-          .replaceAll("</table>", "</table></div>");
+      const rawContent = window.marked ? window.marked.parse(article.content || "") : (article.content || "");
+      const safeContent = window.DOMPurify ? window.DOMPurify.sanitize(rawContent) : rawContent;
+      const htmlContent = safeContent
+        .replaceAll("<table>", '<div class="table-responsive"><table>')
+        .replaceAll("</table>", "</table></div>");
 
       container.innerHTML = `
         ${cover}

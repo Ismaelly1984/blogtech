@@ -152,6 +152,16 @@
         .filter(a => a.status === "published")
         .sort((a, b) => new Date(b.date) - new Date(a.date));
 
+      // Prefill busca a partir da URL antes de aplicar filtros
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const initial = params.get("search") || "";
+        const inputEl = document.getElementById("searchInput");
+        if (inputEl && typeof initial === "string") {
+          inputEl.value = initial;
+        }
+      } catch {}
+
       filteredArticles = [...allArticles];
       applyFilter();
     })
