@@ -32,7 +32,7 @@
 
   <!-- CSS base + blog -->
   <link rel="stylesheet" href="css/blog-base.css?v=4">
-  <link rel="stylesheet" href="css/blog.css?v=4">
+  <link rel="stylesheet" href="css/article.css?v=4">
 
   <!-- CSS crítico mínimo (apenas para evitar FOUC) -->
   <style>
@@ -58,7 +58,6 @@
   </script>
 </head>
 
-
 <body>
   <header>
     <nav class="navbar" aria-label="Barra de navegação">
@@ -69,7 +68,7 @@
         <!-- Navegação -->
         <ul id="primary-navigation" class="nav-menu" role="menubar">
           <li role="none">
-            <a role="menuitem" href="blog.html" class="nav-link" aria-current="page">Início do Blog</a>
+            <a role="menuitem" href="index.html" class="nav-link">Início do Blog</a>
           </li>
           <li role="none">
             <a role="menuitem" href="index.html" class="nav-link">Portfólio</a>
@@ -90,7 +89,6 @@
     </nav>
   </header>
 
-
   <main class="article">
     <div class="container">
       <article id="article-content" class="loading" aria-busy="true" aria-live="polite">
@@ -102,43 +100,41 @@
   </main>
 
   <footer class="footer" role="contentinfo">
-  <div class="container footer-grid">
-    <!-- Coluna 1: Logo / Branding -->
-    <div class="footer-brand">
-      <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
-      <p class="footer-tagline">Construindo experiências digitais com React, Node.js e IA Generativa.</p>
+    <div class="container footer-grid">
+      <!-- Coluna 1: Logo / Branding -->
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Ismael<span class="highlight">Dev</span></a>
+        <p class="footer-tagline">Construindo experiências digitais com React, Node.js e IA Generativa.</p>
+      </div>
+
+      <!-- Coluna 2: Links rápidos -->
+      <nav class="footer-links" aria-label="Links rápidos">
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="index.html">Início do Blog</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <!-- Coluna 3: Contatos -->
+      <div class="footer-contact">
+        <h3>Contato</h3>
+        <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
+        <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener">+55 (14) 99192-0560</a></p>
+      </div>
+
+      <!-- Coluna 4: Redes sociais -->
+      <div class="social-links" aria-label="Redes sociais">
+        <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/Ismaelly1984" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://wa.me/5514991920560" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
     </div>
 
-    <!-- Coluna 2: Links rápidos -->
-    <nav class="footer-links" aria-label="Links rápidos">
-      <h3>Navegação</h3>
-      <ul>
-        <li><a href="index.html">Blog</a></li>
-       
-        <li><a href="#contato">Contato</a></li>
-      </ul>
-    </nav>
-
-    <!-- Coluna 3: Contatos -->
-    <div class="footer-contact">
-      <h3>Contato</h3>
-      <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
-      <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener">+55 (14) 99192-0560</a></p>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ismael Nunes dos Santos — Todos os direitos reservados.</p>
     </div>
-
-    <!-- Coluna 4: Redes sociais -->
-    <div class="social-links" aria-label="Redes sociais">
-      <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="https://github.com/Ismaelly1984" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://wa.me/5514991920560" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; 2025 Ismael Nunes dos Santos — Todos os direitos reservados.</p>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
@@ -148,9 +144,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" defer></script>
 
   <!-- App -->
-
   <script src="js/script.js" defer></script>
-  <script src="js/post.js?v=11" defer></script>
+  <script src="js/post.js?v=12" defer></script>
 
   <!-- Font Awesome carregado depois -->
   <script>
@@ -164,5 +159,4 @@
     });
   </script>
 </body>
-
 </html>

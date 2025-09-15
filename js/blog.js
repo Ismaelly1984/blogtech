@@ -13,7 +13,7 @@
 
   // Util: cria <picture> responsivo
   function buildResponsiveImage(article) {
-    const baseUrl = new URL(article.image, location.origin).href;
+    const baseUrl = article.image.startsWith("./") ? article.image : `./${article.image}`;
     return `
       <div class="post-image">
         <picture>
@@ -62,7 +62,7 @@
           <p class="post-excerpt">${article.excerpt}</p>
           <div class="post-meta">
             <span class="post-author">
-              <img src="images/avatar-ismael.jpg" alt="Foto de ${article.author}" class="author-avatar">
+              <img src="./images/avatar-ismael.jpg" alt="Foto de ${article.author}" class="author-avatar">
               ${article.author}
             </span>
             <span>${article.date}</span>
@@ -70,7 +70,7 @@
           </div>
           <div class="tags">
             ${(article.tags || [])
-              .map(tag => `<a href="blog.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${tag}</a>`)
+              .map(tag => `<a href="index.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${tag}</a>`)
               .join(" ")}
           </div>
           <a href="blog-post.html?id=${article.id}" 
@@ -145,7 +145,7 @@
   }
 
   // Buscar artigos
-  fetch("articles.json", { cache: "force-cache" })
+  fetch("./articles.json", { cache: "force-cache" })
     .then(res => res.json())
     .then(data => {
       allArticles = data
