@@ -76,10 +76,11 @@
       const article = data.find(a => a.id === id && a.status === "published");
       if (!article) throw new Error("Artigo não encontrado");
 
-      const safeTitle = DOMPurify.sanitize(article.title);
-      const safeExcerpt = DOMPurify.sanitize(article.excerpt || article.title);
-      const safeAuthor = DOMPurify.sanitize(article.author || "Ismael Nunes");
-      const safeReadTime = DOMPurify.sanitize(article.readTime || "");
+      const purifier = window.DOMPurify;
+      const safeTitle = purifier ? purifier.sanitize(String(article.title)) : String(article.title);
+      const safeExcerpt = purifier ? purifier.sanitize(String(article.excerpt || article.title)) : String(article.excerpt || article.title);
+      const safeAuthor = purifier ? purifier.sanitize(String(article.author || "Ismael Nunes")) : String(article.author || "Ismael Nunes");
+      const safeReadTime = purifier ? purifier.sanitize(String(article.readTime || "")) : String(article.readTime || "");
 
       document.title = `${safeTitle} | Blog – Ismael Nunes`;
 
@@ -103,8 +104,8 @@
         ? window.marked.parse(article.content || "")
         : (article.content || "");
 
-      const safeContent = window.DOMPurify
-        ? window.DOMPurify.sanitize(
+      const safeContent = purifier
+        ? purifier.sanitize(
             rawContent
               .replaceAll("<table>", '<div class="table-responsive"><table>')
               .replaceAll("</table>", "</table></div>")
@@ -119,7 +120,19 @@
         ${renderReferences(article.references)}
         <a href="index.html" class="back-button" aria-label="Voltar para a lista de artigos">← Voltar ao Blog</a>
       `;
-      container.innerHTML = DOMPurify.sanitize(pageHtml);
+      if (purifier) {
+        container.innerHTML = purifier.sanitize(pageHtml);
+      } else {
+        container.innerHTML = `
+          <div class="article-content" role="alert">
+            <h2>Conteúdo indisponível</h2>
+            <p>Não foi possível carregar com segurança o conteúdo do artigo. Atualize a página.</p>
+            <a href="index.html" class="back-button ghost" aria-label="Voltar para a lista de artigos">
+              <i class="fas fa-arrow-left" aria-hidden="true"></i> <span>Voltar ao Blog</span>
+            </a>
+          </div>
+        `;
+      }
       container.classList.remove("loading");
       container.removeAttribute("aria-busy");
 

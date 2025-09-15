@@ -11,6 +11,10 @@
 
   if (!container) return;
 
+  // Sanitizador com fallback para quando a lib não carregar
+  const purifier = window.DOMPurify;
+  const s = (v) => (purifier ? purifier.sanitize(String(v)) : String(v));
+
   // Util: cria <picture> responsivo
   function buildResponsiveImage(article) {
     const baseUrl = article.image.startsWith("./") ? article.image : `./${article.image}`;
@@ -53,9 +57,9 @@
     articles.forEach(article => {
       const card = document.createElement("article");
       card.className = "post-card" + (article.featured ? " featured" : "");
-      const safeTitle = DOMPurify.sanitize(article.title);
-      const safeExcerpt = DOMPurify.sanitize(article.excerpt);
-      const safeArticle = { ...article, title: safeTitle, imageAlt: DOMPurify.sanitize(article.imageAlt || safeTitle) };
+      const safeTitle = s(article.title);
+      const safeExcerpt = s(article.excerpt);
+      const safeArticle = { ...article, title: safeTitle, imageAlt: s(article.imageAlt || safeTitle) };
       const html = `
         ${buildResponsiveImage(safeArticle)}
         <div class="post-title-banner ${getCategoryClass(article.category)}">
@@ -65,15 +69,15 @@
           <p class="post-excerpt">${safeExcerpt}</p>
           <div class="post-meta">
             <span class="post-author">
-              <img src="./images/avatar-ismael.jpg" alt="Foto de ${DOMPurify.sanitize(article.author)}" class="author-avatar">
-              ${DOMPurify.sanitize(article.author)}
+              <img src="./images/avatar-ismael.jpg" alt="Foto de ${s(article.author)}" class="author-avatar">
+              ${s(article.author)}
             </span>
             <span>${article.date}</span>
-            <span>${DOMPurify.sanitize(article.readTime)}</span>
+            <span>${s(article.readTime)}</span>
           </div>
           <div class="tags">
             ${(article.tags || [])
-              .map(tag => `<a href="index.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${DOMPurify.sanitize(tag)}</a>`)
+              .map(tag => `<a href="index.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${s(tag)}</a>`)
               .join(" ")}
           </div>
           <a href="blog-post.html?id=${article.id}"
@@ -83,7 +87,11 @@
           </a>
         </div>
       `;
-      card.innerHTML = DOMPurify.sanitize(html);
+      if (purifier) {
+        card.innerHTML = purifier.sanitize(html);
+      } else {
+        card.textContent = "Conteúdo indisponível no momento. Atualize a página.";
+      }
       fragment.appendChild(card);
     });
 
