@@ -1,4 +1,4 @@
-// blog.js – Listagem de artigos com busca + paginação + imagens responsivas
+// blog.js – Listagem de artigos com busca + paginação + imagens responsivas + SEO
 (function () {
   const POSTS_PER_PAGE = 6;
   let allArticles = [];
@@ -11,12 +11,15 @@
 
   if (!container) return;
 
-  // Sanitizador com fallback para quando a lib não carregar
+  // Sanitizador com fallback
   const purifier = window.DOMPurify;
   const s = (v) => (purifier ? purifier.sanitize(String(v)) : String(v));
 
-  // Util: cria <picture> responsivo
+  // Util: cria <picture> responsivo (com fallback de imagem)
   function buildResponsiveImage(article) {
+    if (!article.image) {
+      return `<div class="post-image placeholder"><img src="./images/placeholder.jpg" alt="Imagem não disponível" width="400" height="225" loading="lazy"></div>`;
+    }
     const baseUrl = article.image.startsWith("./") ? article.image : `./${article.image}`;
     return `
       <div class="post-image">
@@ -47,6 +50,17 @@
     if (c.includes("ia")) return "category-ia";
     if (c.includes("pwa")) return "category-pwa";
     return "category-default";
+  }
+
+  // SEO helper
+  function setMetaTag(name, content) {
+    let el = document.querySelector(`meta[name="${name}"]`);
+    if (!el) {
+      el = document.createElement("meta");
+      el.setAttribute("name", name);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("content", content);
   }
 
   // Renderizar artigos
@@ -87,15 +101,17 @@
           </a>
         </div>
       `;
-      if (purifier) {
-        card.innerHTML = purifier.sanitize(html);
-      } else {
-        card.textContent = "Conteúdo indisponível no momento. Atualize a página.";
-      }
+      card.innerHTML = purifier ? purifier.sanitize(html) : html;
       fragment.appendChild(card);
     });
 
     container.appendChild(fragment);
+
+    // ✅ Atualiza keywords com base nos artigos mostrados
+    const allTags = [...new Set(articles.flatMap(a => a.tags || []))];
+    if (allTags.length) {
+      setMetaTag("keywords", allTags.join(", "));
+    }
   }
 
   // Renderizar paginação
@@ -164,7 +180,7 @@
         .filter(a => a.status === "published")
         .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      // Prefill busca a partir da URL antes de aplicar filtros
+      // Prefill busca a partir da URL
       try {
         const params = new URLSearchParams(window.location.search);
         const initial = params.get("search") || "";

@@ -11,7 +11,6 @@
     connect-src 'self' https://cdn.emailjs.com;
     object-src 'none';
   ">
-  <!-- removido frame-ancestors (não funciona em <meta>) -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog | Ismael Nunes - Desenvolvedor Full Stack</title>
@@ -27,14 +26,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Google Fonts com font-display swap -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- CSS base + blog -->
+  <!-- CSS base + artigo -->
   <link rel="stylesheet" href="css/blog-base.css?v=4">
   <link rel="stylesheet" href="css/article.css?v=4">
 
-  <!-- CSS crítico mínimo (apenas para evitar FOUC) -->
+  <!-- CSS crítico mínimo -->
   <style>
     body {
       font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Noto Sans', Arial, sans-serif;
@@ -45,7 +44,7 @@
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
   </style>
 
-  <!-- Carregar Font Awesome só após load (melhorar performance) -->
+  <!-- Font Awesome carregado depois -->
   <script>
     window.addEventListener('load', function () {
       var l = document.createElement('link');
@@ -71,7 +70,7 @@
             <a role="menuitem" href="index.html" class="nav-link">Início do Blog</a>
           </li>
           <li role="none">
-            <a role="menuitem" href="index.html" class="nav-link">Portfólio</a>
+            <a role="menuitem" href="https://ismaelly1984.github.io/portif-lio/" class="nav-link" target="_blank" rel="noopener noreferrer">Portfólio</a>
           </li>
           <li role="none">
             <button id="darkToggle" type="button" aria-label="Alternar modo escuro" class="btn-icon">
@@ -80,7 +79,7 @@
           </li>
         </ul>
 
-        <!-- Botão hambúrguer (mobile) -->
+        <!-- Botão hambúrguer -->
         <button id="menuToggle" class="hamburger" type="button" aria-controls="primary-navigation" aria-expanded="false"
           aria-label="Abrir menu">
           <span></span><span></span><span></span>
@@ -112,6 +111,7 @@
         <h3>Navegação</h3>
         <ul>
           <li><a href="index.html">Início do Blog</a></li>
+          <li><a href="https://ismaelly1984.github.io/portif-lio/" target="_blank" rel="noopener noreferrer">Portfólio</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
       </nav>
@@ -120,14 +120,14 @@
       <div class="footer-contact">
         <h3>Contato</h3>
         <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
-        <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener">+55 (14) 99192-0560</a></p>
+        <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer">+55 (14) 99192-0560</a></p>
       </div>
 
       <!-- Coluna 4: Redes sociais -->
       <div class="social-links" aria-label="Redes sociais">
-        <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/Ismaelly1984" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://wa.me/5514991920560" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.linkedin.com/in/ismaelnunes6094" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/Ismaelly1984" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
 
@@ -147,7 +147,5 @@
   <!-- App -->
   <script src="js/script.js" defer></script>
   <script src="js/post.js?v=12" defer></script>
-
-  
 </body>
 </html>

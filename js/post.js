@@ -84,9 +84,10 @@
 
       document.title = `${safeTitle} | Blog – Ismael Nunes`;
 
-      // Capa + conteúdo
-      const cover = buildResponsiveImage(article.image, safeTitle,
-        article.coverW || 800, article.coverH || 450);
+      // ✅ Ajuste 1: fallback para capa ausente
+      const cover = article.image
+        ? buildResponsiveImage(article.image, safeTitle, article.coverW || 800, article.coverH || 450)
+        : "";
 
       const metaHtml = `
         <header class="article-header">
@@ -99,7 +100,6 @@
         </header>
       `;
 
-      // 🔥 Conflito resolvido aqui
       const rawContent = window.marked
         ? window.marked.parse(article.content || "")
         : (article.content || "");
@@ -144,11 +144,20 @@
       setMetaTag('meta[property="og:title"]', "content", safeTitle);
       setMetaTag('meta[property="og:description"]', "content", safeExcerpt);
 
-      const ogImage = `./${article.image}-800.jpg`;
-      setMetaTag('meta[property="og:image"]', "content", ogImage);
+      // ✅ Ajuste 2: preferir .webp no Open Graph
+      const ogImage = article.image ? `./${article.image}-800.webp` : "";
+      if (ogImage) {
+        setMetaTag('meta[property="og:image"]', "content", ogImage);
+        setMetaTag('meta[name="twitter:image"]', "content", ogImage);
+      }
+
       setMetaTag('meta[name="twitter:title"]', "content", safeTitle);
       setMetaTag('meta[name="twitter:description"]', "content", safeExcerpt);
-      setMetaTag('meta[name="twitter:image"]', "content", ogImage);
+
+      // ✅ Ajuste 3: keywords vindas das tags
+      if (article.tags?.length) {
+        setMetaTag('meta[name="keywords"]', "content", article.tags.join(", "));
+      }
     })
     .catch(err => {
       container.innerHTML = `

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ismaelly1984.github.io/blogtech/sitemap.xml
+
