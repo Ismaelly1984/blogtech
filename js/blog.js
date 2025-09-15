@@ -53,33 +53,37 @@
     articles.forEach(article => {
       const card = document.createElement("article");
       card.className = "post-card" + (article.featured ? " featured" : "");
-      card.innerHTML = `
-        ${buildResponsiveImage(article)}
+      const safeTitle = DOMPurify.sanitize(article.title);
+      const safeExcerpt = DOMPurify.sanitize(article.excerpt);
+      const safeArticle = { ...article, title: safeTitle, imageAlt: DOMPurify.sanitize(article.imageAlt || safeTitle) };
+      const html = `
+        ${buildResponsiveImage(safeArticle)}
         <div class="post-title-banner ${getCategoryClass(article.category)}">
-          <h2><a href="blog-post.html?id=${article.id}">${article.title}</a></h2>
+          <h2><a href="blog-post.html?id=${article.id}">${safeTitle}</a></h2>
         </div>
         <div class="post-content">
-          <p class="post-excerpt">${article.excerpt}</p>
+          <p class="post-excerpt">${safeExcerpt}</p>
           <div class="post-meta">
             <span class="post-author">
-              <img src="./images/avatar-ismael.jpg" alt="Foto de ${article.author}" class="author-avatar">
-              ${article.author}
+              <img src="./images/avatar-ismael.jpg" alt="Foto de ${DOMPurify.sanitize(article.author)}" class="author-avatar">
+              ${DOMPurify.sanitize(article.author)}
             </span>
             <span>${article.date}</span>
-            <span>${article.readTime}</span>
+            <span>${DOMPurify.sanitize(article.readTime)}</span>
           </div>
           <div class="tags">
             ${(article.tags || [])
-              .map(tag => `<a href="index.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${tag}</a>`)
+              .map(tag => `<a href="index.html?tag=${encodeURIComponent(tag.toLowerCase())}" class="tag">#${DOMPurify.sanitize(tag)}</a>`)
               .join(" ")}
           </div>
-          <a href="blog-post.html?id=${article.id}" 
-             class="read-more" 
-             aria-label="Ler mais sobre ${article.title}">
+          <a href="blog-post.html?id=${article.id}"
+             class="read-more"
+             aria-label="Ler mais sobre ${safeTitle}">
             Ler mais <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       `;
+      card.innerHTML = DOMPurify.sanitize(html);
       fragment.appendChild(card);
     });
 

@@ -76,37 +76,50 @@
       const article = data.find(a => a.id === id && a.status === "published");
       if (!article) throw new Error("Artigo não encontrado");
 
-      document.title = `${article.title} | Blog – Ismael Nunes`;
+      const safeTitle = DOMPurify.sanitize(article.title);
+      const safeExcerpt = DOMPurify.sanitize(article.excerpt || article.title);
+      const safeAuthor = DOMPurify.sanitize(article.author || "Ismael Nunes");
+      const safeReadTime = DOMPurify.sanitize(article.readTime || "");
+
+      document.title = `${safeTitle} | Blog – Ismael Nunes`;
 
       // Capa + conteúdo
-      const cover = buildResponsiveImage(article.image, article.title,
+      const cover = buildResponsiveImage(article.image, safeTitle,
         article.coverW || 800, article.coverH || 450);
 
       const metaHtml = `
         <header class="article-header">
-          <h1 class="article-title">${article.title}</h1>
+          <h1 class="article-title">${safeTitle}</h1>
           <p class="article-meta">
-            <span>${article.author || "Ismael Nunes"}</span> ·
+            <span>${safeAuthor}</span> ·
             <time datetime="${article.date}">${article.date}</time> ·
-            <span>${article.readTime || ""}</span>
+            <span>${safeReadTime}</span>
           </p>
         </header>
       `;
 
-      const rawContent = window.marked ? window.marked.parse(article.content || "") : (article.content || "");
-      const safeContent = window.DOMPurify ? window.DOMPurify.sanitize(rawContent) : rawContent;
-      const htmlContent = safeContent
-        .replaceAll("<table>", '<div class="table-responsive"><table>')
-        .replaceAll("</table>", "</table></div>");
+      // 🔥 Conflito resolvido aqui
+      const rawContent = window.marked
+        ? window.marked.parse(article.content || "")
+        : (article.content || "");
 
-      container.innerHTML = `
+      const safeContent = window.DOMPurify
+        ? window.DOMPurify.sanitize(
+            rawContent
+              .replaceAll("<table>", '<div class="table-responsive"><table>')
+              .replaceAll("</table>", "</table></div>")
+          )
+        : rawContent;
+
+      const pageHtml = `
         ${cover}
         ${metaHtml}
-        <div class="article-content">${htmlContent}</div>
+        <div class="article-content">${safeContent}</div>
         ${renderTags(article.tags)}
         ${renderReferences(article.references)}
         <a href="index.html" class="back-button" aria-label="Voltar para a lista de artigos">← Voltar ao Blog</a>
       `;
+      container.innerHTML = DOMPurify.sanitize(pageHtml);
       container.classList.remove("loading");
       container.removeAttribute("aria-busy");
 
@@ -114,14 +127,14 @@
 
       const pageUrl = new URL(window.location.href);
       setCanonical(pageUrl.href);
-      setMetaTag('meta[name="description"]', "content", article.excerpt || article.title);
-      setMetaTag('meta[property="og:title"]', "content", article.title);
-      setMetaTag('meta[property="og:description"]', "content", article.excerpt || article.title);
+      setMetaTag('meta[name="description"]', "content", safeExcerpt);
+      setMetaTag('meta[property="og:title"]', "content", safeTitle);
+      setMetaTag('meta[property="og:description"]', "content", safeExcerpt);
 
       const ogImage = `./${article.image}-800.jpg`;
       setMetaTag('meta[property="og:image"]', "content", ogImage);
-      setMetaTag('meta[name="twitter:title"]', "content", article.title);
-      setMetaTag('meta[name="twitter:description"]', "content", article.excerpt || article.title);
+      setMetaTag('meta[name="twitter:title"]', "content", safeTitle);
+      setMetaTag('meta[name="twitter:description"]', "content", safeExcerpt);
       setMetaTag('meta[name="twitter:image"]', "content", ogImage);
     })
     .catch(err => {
