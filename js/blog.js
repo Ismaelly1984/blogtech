@@ -172,31 +172,32 @@
     updateUI();
   }
 
-  // Buscar artigos
-  fetch("./articles.json", { cache: "force-cache" })
-    .then(res => res.json())
-    .then(data => {
-      allArticles = data
-        .filter(a => a.status === "published")
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
+ // Buscar artigos SEM cache (sempre atualizado)
+fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
+  .then(res => res.json())
+  .then(data => {
+    allArticles = data
+      .filter(a => a.status === "published")
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      // Prefill busca a partir da URL
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const initial = params.get("search") || "";
-        const inputEl = document.getElementById("searchInput");
-        if (inputEl && typeof initial === "string") {
-          inputEl.value = initial;
-        }
-      } catch {}
+    // Prefill busca a partir da URL
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const initial = params.get("search") || "";
+      const inputEl = document.getElementById("searchInput");
+      if (inputEl && typeof initial === "string") {
+        inputEl.value = initial;
+      }
+    } catch {}
 
-      filteredArticles = [...allArticles];
-      applyFilter();
-    })
-    .catch(err => {
-      console.error("Erro ao carregar artigos:", err);
-      container.innerHTML = "<p role='alert'>Erro ao carregar artigos. Tente novamente mais tarde.</p>";
-    });
+    filteredArticles = [...allArticles];
+    applyFilter();
+  })
+  .catch(err => {
+    console.error("Erro ao carregar artigos:", err);
+    container.innerHTML =
+      "<p role='alert'>Erro ao carregar artigos. Tente novamente mais tarde.</p>";
+  });
 
   // Busca com debounce
   const searchInput = document.getElementById("searchInput");

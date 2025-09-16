@@ -65,12 +65,13 @@
     link.setAttribute("href", url);
   }
 
-  // Carrega artigos
-  fetch("./articles.json", { cache: "force-cache" })
-    .then(res => {
-      if (!res.ok) throw new Error("Erro ao carregar JSON");
-      return res.json();
-    })
+ // Carrega artigos SEM cache
+fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
+  .then(res => {
+    if (!res.ok) throw new Error("Erro ao carregar JSON");
+    return res.json();
+  })
+
     .then(data => {
       if (!id || isNaN(id)) throw new Error("Artigo inválido");
       const article = data.find(a => a.id === id && a.status === "published");
@@ -100,9 +101,11 @@
         </header>
       `;
 
-      const rawContent = window.marked
-        ? window.marked.parse(article.content || "")
-        : (article.content || "");
+      // ✅ Ajuste 2: fallback seguro para window.marked
+      let rawContent = article.content || "";
+      if (window.marked && typeof window.marked.parse === "function") {
+        rawContent = window.marked.parse(rawContent);
+      }
 
       const safeContent = purifier
         ? purifier.sanitize(
@@ -144,7 +147,7 @@
       setMetaTag('meta[property="og:title"]', "content", safeTitle);
       setMetaTag('meta[property="og:description"]', "content", safeExcerpt);
 
-      // ✅ Ajuste 2: preferir .webp no Open Graph
+      // ✅ Ajuste 3: preferir .webp no Open Graph
       const ogImage = article.image ? `./${article.image}-800.webp` : "";
       if (ogImage) {
         setMetaTag('meta[property="og:image"]', "content", ogImage);
@@ -154,7 +157,7 @@
       setMetaTag('meta[name="twitter:title"]', "content", safeTitle);
       setMetaTag('meta[name="twitter:description"]', "content", safeExcerpt);
 
-      // ✅ Ajuste 3: keywords vindas das tags
+      // ✅ Ajuste 4: keywords vindas das tags
       if (article.tags?.length) {
         setMetaTag('meta[name="keywords"]', "content", article.tags.join(", "));
       }

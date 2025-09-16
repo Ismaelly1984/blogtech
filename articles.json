@@ -4,7 +4,7 @@
     "title": "O que são React Hooks?",
     "slug": "o-que-sao-react-hooks",
     "excerpt": "Aprenda como os Hooks permitem adicionar estado, efeitos e contexto a componentes funcionais no React.",
-    "content": "...",
+    "content": "React Hooks são funcionalidades introduzidas no React versão 16.8 que permitem que componentes funcionais utilizem recursos como **estado (state)**, **efeitos colaterais (side effects)** e **contexto (context)**, sem a necessidade de usar classes.\n\nAntes dos Hooks, componentes de classe eram essenciais quando precisávamos de ciclo de vida ou de estado local. Hooks simplificam isso, tornando o código mais limpo, modular e fácil de reutilizar.\n\n## Principais Hooks\n\n- **useState**: permite declarar variáveis de estado dentro de componentes funcionais. Exemplo:\n```jsx\nimport React, { useState } from 'react';\n\nfunction Contador() {\n  const [contagem, setContagem] = useState(0);\n  return (\n    <div>\n      <p>Você clicou {contagem} vezes</p>\n      <button onClick={() => setContagem(contagem + 1)}>Clique aqui</button>\n    </div>\n  );\n}\n```\n\n- **useEffect**: permite executar efeitos colaterais, como fetch de dados, timers, assinaturas de eventos, etc. Ele combina os comportamentos de `componentDidMount`, `componentDidUpdate` e `componentWillUnmount`.\n\nExemplo simples de uso:\n```jsx\nimport React, { useState, useEffect } from 'react';\n\nfunction DadosUsuario({ userId }) {\n  const [usuario, setUsuario] = useState(null);\n\n  useEffect(() => {\n    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)\n      .then(r => r.json())\n      .then(dados => setUsuario(dados));\n  }, [userId]);\n\n  if (!usuario) return <p>Carregando...</p>;\n  return <div><h1>{usuario.name}</h1><p>{usuario.email}</p></div>;\n}\n```\n\n- **useContext**: facilita compartilhar dados “globais” (tema, autenticação, tradução etc.) entre componentes sem passar props manualmente em cada camada.\n\n- **useReducer**: utilitário para lógica de estado mais complexa, com múltiplas ações ou quando estado é objeto grande, parecido com o padrão de reducer do Redux ou similar. \n\n## Regras e boas práticas\n\n1. **Chamar Hooks apenas no topo do componente funcional** — não dentro de loops, condicionais ou funções aninhadas. Isso garante que a ordem dos Hooks seja a mesma entre renderizações.  \n2. **Hooks só podem ser usados em componentes funcionais ou em custom hooks**; nunca em componentes de classe ou funções comuns.  \n3. **Dependências de useEffect**: sempre especificar no array de dependências todas as variáveis do estado ou props que o efeito usa, para evitar comportamentos inesperados ou loops infinitos.  \n4. **Limpeza de efeitos**: se o efeito cria algo que precisa ser desmontado (listeners, timers, subscrições), retornar uma função de cleanup em useEffect.  \n5. **Custom hooks**: use quando houver lógica repetida entre componentes, para extrair e reutilizar. Nomeie com prefixo `use`.  \n6. **Evitar otimizações prematuras**: usar useMemo/useCallback/useReducer quando realmente fizer diferença no desempenho; caso contrário pode complicar sem vantagem perceptível. \n\n## Vantagens e limitações\n\n**Vantagens:**\n- Redução de boilerplate comparado ao uso de classes.  \n- Código mais claro, funções menores, lógica mais coesa.  \n- Reutilização mais fácil de lógica de estado e efeitos (via custom hooks).  \n- Integração mais natural com tendências funcionais e com o paradigma de composição. \n\n**Limitações / pontos de atenção:**\n- Complexidade em efeitos pode deixar componentes difíceis de entender se misturar muitas responsabilidades. \n- Esquecer dependências ou colocar dependências erradas pode causar bugs sutis ou loops infinitos. \n- Operações pesadas ou CPU-bound ainda precisam de estratégia (web workers, dividir tarefas, etc.). \n- Debugging pode exigir atenção nos efeitos e no fluxo de atualização de estado. \n\n## Exemplos práticos adicionais\n\n- Contador simples (mostrado acima). \n- Buscar dados de API com useEffect, lidar com estados de carregamento e erro. \n- Custom Hook, por exemplo, para sincronizar com `localStorage` ou acompanhar dimensões da janela. \n\n## Conclusão\n\nReact Hooks mudaram o jogo no desenvolvimento moderno de front-end: oferecem uma forma mais declarativa, modular e funcional de escrever componentes. Aprender seus principais Hooks, regras e boas práticas é essencial para quem quer criar aplicações React robustas, manuteníveis e eficientes.\n",
     "category": "React",
     "tags": ["React", "Hooks", "JavaScript", "Frontend"],
     "author": "Ismael Nunes",
@@ -17,8 +17,10 @@
     "coverH": 450,
     "imageAspect": "16/9",
     "references": [
-      "https://react.dev/learn/hooks-intro",
-      "https://blog.logrocket.com/guide-to-react-hooks/"
+      "https://legacy.reactjs.org/docs/hooks-overview.html",
+      "https://react.dev/reference/react/useEffect",
+      "https://react.dev/learn/state-and-lifecycle",
+      "https://www.dio.me/articles/guia-pratico-utilizando-usestate-e-useeffect-em-seu-projeto-react"
     ]
   },
   {
@@ -26,8 +28,7 @@
     "title": "5 Hábitos Essenciais de Programadores de Sucesso",
     "slug": "os-5-habitos-de-programadores-de-sucesso",
     "excerpt": "Descubra os hábitos que transformam programadores comuns em profissionais de alto impacto: produtividade, código limpo, equilíbrio e aprendizado.",
-    "meta": { "...": "..." },
-    "content": "...",
+    "content": "Ser um programador de sucesso vai muito além de dominar linguagens ou frameworks — envolve adotar hábitos consistentes que elevam a qualidade do trabalho, preservam saúde mental e favorecem crescimento na carreira.\n\n## Hábitos que fazem diferença\n\n1. **Definir objetivos claros**\n   Estabeleça metas concretas, de curto, médio e longo prazo. Saber onde quer chegar ajuda a priorizar tarefas, evitar distrações e medir progresso. Projetos, aprendizados, especializações ou mudança de nível (júnior → pleno → sênior) podem compor sua lista de objetivos.  \n\n2. **Aprender continuamente**\n   O mundo da tecnologia evolui muito rápido. Ler artigos, cursos, tutoriais; experimentar novas ferramentas; estudar fundamentos (algoritmos, estruturas de dados, design de software). Não se contente apenas com o que já sabe — busque entender por que foram feitas as escolhas nas ferramentas que usa.  \n\n3. **Escrever código limpo e legível**\n   Priorize clareza. Nomes autoexplicativos, funções com responsabilidade única, comentários quando necessários, evitar complexidade desnecessária. O código limpo economiza tempo de manutenção, facilita o trabalho em equipe e reduz bugs.  \n\n4. **Automatizar tarefas rotineiras**\n   Sempre que possível, elimine repetitividade: scripts de build, testes automatizados, ferramentas de integração contínua, automação de deploy ou tarefas simples como formatação de código, linting. Automatização libera sua mente para focar no que é criativo ou crítico.  \n\n5. **Buscar equilíbrio entre trabalho, estudo e descanso**\n   Evite sobrecarga. Programar horas demais, sem pausas ou sem sono adequado, pode reduzir sua produtividade e gerar burnout. Inclua momentos de descanso, lazer, desconectar. Estabeleça uma rotina que permita produtividade sustentada, não só picos intensos.\n\n## Exemplos práticos de aplicação\n\n- Ao iniciar uma semana, defina três metas principais — isso ajuda a focar no que importa.  \n- Separe tempo fixo para estudo ou experimentação com novas tecnologias ou patterns, nem que seja uma pequena parte do dia.  \n- Refatore código antigo para melhor legibilidade ou modularização — mesmo que não haja pressão imediata para isso.  \n- Use ferramentas como linters, formatter automáticos, scripts, templates para tarefas repetitivas.  \n- Durma bem, faça pausas entre sessões de trabalho, pratique atividade física ou hobbies: mente descansada aprende e produz melhor.\n\n## Desafios comuns e como lidar\n\n- Procrastinação ou distrações: usar técnicas como Pomodoro, definir períodos de foco, silenciar notificações, organizar ambiente de trabalho.  \n- Sobrecarga de informações: escolher bem o que aprender, filtrar conteúdos; priorizar fundamentos sobre novidades superficiais.  \n- Perfeccionismo excessivo: refatorar é ótimo, mas gastar tempo demais em detalhes pequenos pode atrasar entregas.  \n- Desequilíbrio entre vida profissional e pessoal: impor limites claros, reservar tempo para cuidar da saúde mental.\n\n## Conclusão\n\nAdotar hábitos consistentes é o que transforma um bom desenvolvedor em um profissional de muito impacto. Objetivos claros, aprendizado constante, código limpo, automação e equilíbrio são pilares que, juntos, elevam tanto qualidade técnica quanto bem-estar. Comece pequeno, escolha um hábito para incorporar por vez, e vá construindo sua rotina. O resultado aparece com o tempo.",
     "category": "Carreira",
     "tags": ["Produtividade", "Programação", "Carreira", "Boas Práticas", "Equilíbrio", "Crescimento"],
     "author": "Ismael Nunes",
@@ -42,132 +43,20 @@
     "coverW": 800,
     "coverH": 450,
     "references": [
-      "https://martinfowler.com/bliki/CleanCode.html",
-      "https://pt.wikipedia.org/wiki/T%C3%A9cnica_pomodoro",
-      "Atomic Habits ‒ James Clear"
+      "https://awari.com.br/7-habitos-de-programadores-altamente-eficazes/",
+      "https://medium.com/@brunobandev/dicas-de-produtividade-para-programadores-b08d394d297a",
+      "https://www.tabnews.com.br/viniciussantos45/14-habitos-de-programadores-altamente-produtivos",
+      "https://pt.wikipedia.org/wiki/T%C3%A9cnica_pomodoro"
     ],
     "internalLinks": [
-      { "title": "Como manter fluxo de estudo em programação", "slug": "fluxo-estudo-programacao" },
-      { "title": "Guia de boas práticas com SOLID", "slug": "boas-praticas-solid" }
-    ]
-  },
-  {
-    "id": 3,
-    "title": "Por que investir em PWAs?",
-    "slug": "por-que-investir-em-pwas",
-    "excerpt": "Progressive Web Apps unem o melhor da web com a experiência dos aplicativos nativos.",
-    "content": "...",
-    "category": "PWA",
-    "tags": ["PWA", "Frontend", "Mobile", "Web"],
-    "author": "Ismael Nunes",
-    "date": "2025-06-10",
-    "readTime": "7 min",
-    "status": "published",
-    "featured": false,
-    "image": "images/blog/pwa",
-    "coverW": 800,
-    "coverH": 450,
-    "imageAspect": "16/9",
-    "references": [
-      "https://web.dev/what-are-pwas/",
-      "https://developer.mozilla.org/pt-BR/docs/Web/Progressive_web_apps"
-    ]
-  },
-  {
-    "id": 4,
-    "title": "IA Generativa: O Futuro da Programação",
-    "slug": "ia-generativa-o-futuro",
-    "excerpt": "Entenda como a IA generativa está transformando a forma de desenvolver software.",
-    "content": "...",
-    "category": "IA",
-    "tags": ["IA", "Inteligência Artificial", "DevTools", "Produtividade"],
-    "author": "Ismael Nunes",
-    "date": "2025-04-22",
-    "readTime": "8 min",
-    "status": "published",
-    "featured": false,
-    "image": "images/blog/ia-generativa",
-    "coverW": 800,
-    "coverH": 450,
-    "imageAspect": "16/9",
-    "references": [
-      "https://openai.com/",
-      "https://copilot.github.com/"
-    ]
-  },
-  {
-    "id": 5,
-    "title": "Node.js: O Motor da Web Moderna",
-    "slug": "node-js-o-motor-da-web",
-    "excerpt": "Por que o Node.js se tornou a base de tantos aplicativos modernos?",
-    "content": "...",
-    "category": "Backend",
-    "tags": ["Node.js", "Backend", "JavaScript", "APIs"],
-    "author": "Ismael Nunes",
-    "date": "2025-07-12",
-    "readTime": "9 min",
-    "status": "published",
-    "featured": false,
-    "image": "images/blog/nodejs",
-    "coverW": 800,
-    "coverH": 450,
-    "imageAspect": "16/9",
-    "references": [
-      "https://nodejs.org/",
-      "https://developer.mozilla.org/pt-BR/docs/Learn/Server-side/Node_server_without_framework"
-    ]
-  },
-  {
-    "id": 6,
-    "title": "O que é IA Generativa e como ela está mudando o desenvolvimento de software",
-    "slug": "o-que-e-ia-generativa-e-como-ela-esta-mudando-o-desenvolvimento-de-software",
-    "excerpt": "Entenda o que é IA generativa, como funciona e por que ela está acelerando (e transformando) o ciclo de desenvolvimento de software.",
-    "content": "...",
-    "category": "IA",
-    "tags": ["IA", "Inteligência Artificial", "DevTools", "Produtividade", "Engenharia de Software"],
-    "author": "Ismael Nunes",
-    "date": "2025-09-12",
-    "readTime": "10 min",
-    "status": "published",
-    "featured": false,
-    "image": "images/blog/ia-generativa",
-    "coverW": 800,
-    "coverH": 450,
-    "imageAspect": "16/9",
-    "references": [
-      "https://resources.github.com/learn/pathways/copilot/essentials/measuring-the-impact-of-github-copilot/",
-      "https://survey.stackoverflow.co/2024/ai",
-      "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-2024",
-      "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
-      "https://research.google/blog/ai-in-software-engineering-at-google-progress-and-the-path-ahead/"
-    ]
-  },
-  {
-    "id": 7,
-    "title": "Node.js: por que ele é o motor da Web Moderna",
-    "slug": "node-js-por-que-ele-e-o-motor-da-web-moderna",
-    "excerpt": "Entenda como o modelo event-driven e I/O não bloqueante do Node.js, aliado ao V8 e ao libuv, impulsiona APIs, apps em tempo real e microsserviços.",
-    "content": "...",
-    "category": "Backend",
-    "tags": ["Node.js", "Backend", "JavaScript", "APIs", "Event Loop", "V8", "libuv", "Escalabilidade"],
-    "author": "Ismael Nunes",
-    "date": "2025-09-12",
-    "readTime": "9 min",
-    "status": "published",
-    "featured": false,
-    "image": "images/blog/nodejs",
-    "coverW": 800,
-    "coverH": 450,
-    "imageAspect": "16/9",
-    "references": [
-      "https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick",
-      "https://nodejs.org/en/learn/asynchronous-work/overview-of-blocking-vs-non-blocking",
-      "https://docs.libuv.org/en/v1.x/guide/basics.html",
-      "https://docs.libuv.org/en/v1.x/design.html",
-      "https://nodejs.org/api/worker_threads.html",
-      "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Express_Nodejs/Introduction",
-      "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Node_server_without_framework",
-      "https://v8.dev/docs"
+      {
+        "title": "Como manter fluxo de estudo em programação",
+        "slug": "fluxo-estudo-programacao"
+      },
+      {
+        "title": "Guia de boas práticas com SOLID",
+        "slug": "boas-praticas-solid"
+      }
     ]
   }
 ]
