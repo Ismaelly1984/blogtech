@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.emailjs.com 'unsafe-inline';
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.emailjs.com;
+    style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:;
     img-src 'self' data:;
     connect-src 'self' https://cdn.emailjs.com;
@@ -32,25 +32,12 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap">
 
-  <!-- Pré-carrega tema salvo -->
-  <script>
-    (function () {
-      try {
-        const root = document.documentElement;
-        const stored = localStorage.getItem("theme");
-        const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const theme = stored || (sysDark ? "dark" : "light");
-        root.setAttribute("data-theme", theme);
-      } catch (e) { }
-    })();
-  </script>
+  <!-- Pré-carrega tema salvo (externo, sem inline) -->
+  <script src="js/theme-preload.js"></script>
 
-  <!-- Font Awesome não-bloqueante -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style"
-    crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+  <!-- Font Awesome via JS (noscript fallback) -->
   <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous">
   </noscript>
 </head>
 
@@ -91,7 +78,7 @@
   </header>
 
   <!-- LISTAGEM -->
-  <main class="blog" style="padding-top:100px">
+  <main class="blog">
     <section class="container">
       <h1 class="section-title">Blog de Tecnologia</h1>
 
@@ -130,7 +117,7 @@
       <!-- Contatos -->
       <div class="footer-contact">
         <h3>Contato</h3>
-        <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
+        <p><a class="email-link" data-user="ismael.dev.web" data-domain="gmail.com" href="#" rel="nofollow noopener">Contato por e-mail</a></p>
         <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer">+55 (14) 99192-0560</a></p>
       </div>
 
@@ -153,6 +140,7 @@
   <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js" defer></script>
 
 <!-- Prism.js para highlight de código -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
@@ -162,18 +150,6 @@
 
 <script src="js/script.js" defer></script>
 <script src="js/blog.js?v=8" defer></script>
-
-<!-- Font Awesome pós-load -->
-<script>
-  window.addEventListener("load", function () {
-    var l = document.createElement("link");
-    l.rel = "stylesheet";
-    l.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
-    l.crossOrigin = "anonymous";
-    l.referrerPolicy = "no-referrer";
-    document.head.appendChild(l);
-  });
-</script>
 <noscript>Ative o JavaScript para melhor experiência.</noscript>
 </body>
 </html>

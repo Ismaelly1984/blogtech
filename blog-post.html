@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.emailjs.com 'unsafe-inline';
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.emailjs.com;
+    style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:;
     img-src 'self' data:;
     connect-src 'self' https://cdn.emailjs.com;
@@ -13,6 +13,8 @@
   ">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Pré-carrega tema salvo (externo, sem inline) -->
+  <script src="js/theme-preload.js"></script>
   <title>Blog | Ismael Nunes - Desenvolvedor Full Stack</title>
   <meta name="description" content="Artigos sobre desenvolvimento web, React, Node.js, PWA e IA Generativa escritos por Ismael Nunes." />
 
@@ -33,28 +35,12 @@
   <link rel="stylesheet" href="css/blog-base.css?v=4">
   <link rel="stylesheet" href="css/article.css?v=4">
 
-  <!-- CSS crítico mínimo -->
-  <style>
-    body {
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Noto Sans', Arial, sans-serif;
-      margin: 0;
-      color: var(--text, #1f2937);
-      background: var(--bg, #fff);
-    }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-  </style>
+  
 
-  <!-- Font Awesome carregado depois -->
-  <script>
-    window.addEventListener('load', function () {
-      var l = document.createElement('link');
-      l.rel = 'stylesheet';
-      l.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-      l.crossOrigin = 'anonymous';
-      l.referrerPolicy = 'no-referrer';
-      document.head.appendChild(l);
-    });
-  </script>
+  <!-- Font Awesome via JS (noscript fallback) -->
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous">
+  </noscript>
 </head>
 
 <body>
@@ -119,7 +105,7 @@
       <!-- Coluna 3: Contatos -->
       <div class="footer-contact">
         <h3>Contato</h3>
-        <p><a href="mailto:ismael.dev@example.com">ismael.dev@example.com</a></p>
+        <p><a class="email-link" data-user="ismael.dev.web" data-domain="gmail.com" href="#" rel="nofollow noopener">Contato por e-mail</a></p>
         <p><a href="https://wa.me/5514991920560" target="_blank" rel="noopener noreferrer">+55 (14) 99192-0560</a></p>
       </div>
 

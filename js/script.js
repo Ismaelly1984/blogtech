@@ -78,4 +78,36 @@
     // Safari antigos
     mql.addListener(onPrefersColorChange);
   }
+
+  // ---------- Obfuscação de e-mail ----------
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("a.email-link[data-user][data-domain]").forEach((a) => {
+      try {
+        const user = a.getAttribute("data-user");
+        const domain = a.getAttribute("data-domain");
+        if (!user || !domain) return;
+        const address = `${user}@${domain}`;
+        a.setAttribute("href", `mailto:${address}`);
+        // Exibe o e-mail no texto apenas após montar
+        if (!a.textContent || /contato/i.test(a.textContent)) {
+          a.textContent = address;
+        }
+        a.rel = (a.rel || "") + " nofollow noopener";
+      } catch {}
+    });
+  });
+
+  // ---------- Carregamento do Font Awesome (sem inline) ----------
+  window.addEventListener("load", () => {
+    try {
+      const existing = document.querySelector('link[href*="font-awesome/5.15.4/css/all.min.css"]');
+      if (existing) return;
+      const l = document.createElement("link");
+      l.rel = "stylesheet";
+      l.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+      l.crossOrigin = "anonymous";
+      l.referrerPolicy = "no-referrer";
+      document.head.appendChild(l);
+    } catch {}
+  });
 })();
