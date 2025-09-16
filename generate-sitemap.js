@@ -19,10 +19,9 @@ function formatDate(dateStr) {
   }
 }
 
-// URLs fixas
+// URLs fixas (somente páginas existentes)
 const staticPages = [
-  { loc: `${BASE_URL}/index.html`, priority: "1.0" },
-  { loc: `${BASE_URL}/blog.html`, priority: "0.9" }
+  { loc: `${BASE_URL}/index.html`, priority: "1.0" }
 ];
 
 // URLs dos artigos
