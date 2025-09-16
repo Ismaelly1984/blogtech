@@ -428,3 +428,76 @@ input[type="button"] {
     padding: 0.3rem 0.7rem;
   }
 }
+/* =========================================================
+   Prism.js — Highlight de código integrado ao tema
+========================================================= */
+
+/* Bloco de código */
+pre[class*="language-"],
+code[class*="language-"] {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 0.9rem;
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  text-shadow: none;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+/* Pré-formatado */
+pre[class*="language-"] {
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  box-shadow: var(--shadow);
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+/* Tokens de sintaxe */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--muted);
+  font-style: italic;
+}
+.token.punctuation { color: var(--secondary); }
+.token.selector,
+.token.tag { color: #ec4899; } /* rosa */
+.token.property,
+.token.boolean,
+.token.number,
+.token.constant { color: #f59e0b; } /* laranja */
+.token.string,
+.token.char { color: #10b981; } /* verde */
+.token.function,
+.token.class-name { color: #6366f1; } /* azul primário */
+.token.keyword { color: #d946ef; } /* roxo */
+.token.operator,
+.token.entity,
+.token.url { color: #06b6d4; } /* ciano */
+
+/* Dark mode override */
+:root[data-theme="dark"] pre[class*="language-"] {
+  background: #1e293b;
+  border-color: #334155;
+}
+:root[data-theme="dark"] :not(pre) > code[class*="language-"] {
+  background: #0f172a;
+  border-color: #334155;
+}

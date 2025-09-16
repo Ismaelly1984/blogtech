@@ -97,37 +97,66 @@
   margin-bottom: 1.5rem;
   text-align: center;
 }
-.related-grid { display: grid; gap: 1.5rem; }
-@media (min-width: 600px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .related-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.related-card {
-  background: var(--panel);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: transform .3s ease, box-shadow .3s ease;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--border);
+.related-grid {
+  display: grid;
+  gap: 1rem;
 }
-.related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
-.related-image { aspect-ratio: 16/9; overflow: hidden; }
+/* Cards em formato horizontal */
+.related-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.related-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.related-image {
+  flex: 0 0 120px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+}
 .related-image img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  transition: transform .4s ease;
+  transition: transform .3s ease;
 }
 .related-card:hover .related-image img { transform: scale(1.05); }
-.related-content { padding: 1rem; flex: 1; }
+
+.related-content {
+  flex: 1;
+  padding: 0;
+}
+.related-content h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.4rem 0;
+  line-height: 1.3;
+}
+.related-content p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
 .related-category {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  padding: 0.25rem 0.6rem;
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  margin-bottom: 0.25rem;
   color: #fff;
   background: var(--primary);
 }
@@ -151,10 +180,20 @@
   .article { padding: 60px 15px; }
   .article-title { font-size: 1.6rem; }
   .article-content { font-size: 1rem; }
-  .article-cover,
-  .related-image img {
-    object-fit: contain;
-    background: var(--bg-subtle);
+
+  /* Ajusta cards em telas pequenas */
+  .related-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .related-image {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+  }
+  .related-content {
+    padding: 0.5rem 0;
   }
 }
 

@@ -65,13 +65,95 @@
     link.setAttribute("href", url);
   }
 
- // Carrega artigos SEM cache
-fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
-  .then(res => {
-    if (!res.ok) throw new Error("Erro ao carregar JSON");
-    return res.json();
-  })
+  // Render tags
+  function renderTags(tags = []) {
+    if (!tags.length) return "";
+    return `
+      <div class="tags">
+        ${tags.map(t => `<a class="tag" aria-label="Tag ${t}" href="index.html?tag=${encodeURIComponent(t.toLowerCase())}">#${t}</a>`).join(" ")}
+      </div>
+    `;
+  }
 
+  // Render referências
+  function renderReferences(refs = []) {
+    if (!refs.length) return "";
+    return `
+      <aside class="article-references">
+        <h3>Referências</h3>
+        <ul>
+          ${refs.map(u => `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`).join("")}
+        </ul>
+      </aside>
+    `;
+  }
+
+ function renderRelated(allArticles, currentArticle) {
+  // Base: todos publicados exceto o atual
+  const candidates = allArticles.filter(
+    a => a.id !== currentArticle.id && a.status === "published"
+  );
+
+  // 1. Mesma categoria
+  const sameCategory = candidates.filter(a => a.category === currentArticle.category);
+
+  // 2. Mesmas tags
+  const byTags = candidates.filter(a =>
+    (a.tags || []).some(tag => (currentArticle.tags || []).includes(tag))
+  );
+
+  // Junta categoria + tags sem duplicar
+  let related = [...sameCategory];
+  byTags.forEach(r => {
+    if (!related.find(x => x.id === r.id)) related.push(r);
+  });
+
+  // 3. Se ainda não tiver 3, completa com os mais recentes
+  if (related.length < 3) {
+    const fallback = candidates
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    fallback.forEach(f => {
+      if (related.length < 3 && !related.find(x => x.id === f.id)) {
+        related.push(f);
+      }
+    });
+  }
+
+  // 4. Limita a 3
+  related = related.slice(0, 3);
+
+  if (!related.length) return "";
+
+  return `
+    <section class="related-posts">
+      <h2>Artigos Relacionados</h2>
+      <div class="related-grid">
+        ${related.map(r => `
+          <article class="related-card">
+            <div class="related-image">
+              <img src="./${r.image}-400.jpg" 
+                   alt="${r.imageAlt || r.title}" 
+                   loading="lazy" decoding="async">
+            </div>
+            <div class="related-content">
+              <span class="related-category">${r.category}</span>
+              <h3><a href="blog-post.html?id=${r.id}">${r.title}</a></h3>
+              <p>${r.excerpt}</p>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+
+  // Carrega artigos SEM cache
+  fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao carregar JSON");
+      return res.json();
+    })
     .then(data => {
       if (!id || isNaN(id)) throw new Error("Artigo inválido");
       const article = data.find(a => a.id === id && a.status === "published");
@@ -85,7 +167,6 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
 
       document.title = `${safeTitle} | Blog – Ismael Nunes`;
 
-      // ✅ Ajuste 1: fallback para capa ausente
       const cover = article.image
         ? buildResponsiveImage(article.image, safeTitle, article.coverW || 800, article.coverH || 450)
         : "";
@@ -101,7 +182,6 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
         </header>
       `;
 
-      // ✅ Ajuste 2: fallback seguro para window.marked
       let rawContent = article.content || "";
       if (window.marked && typeof window.marked.parse === "function") {
         rawContent = window.marked.parse(rawContent);
@@ -115,27 +195,19 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
           )
         : rawContent;
 
+      const relatedHtml = renderRelated(data, article);
+
       const pageHtml = `
         ${cover}
         ${metaHtml}
         <div class="article-content">${safeContent}</div>
         ${renderTags(article.tags)}
         ${renderReferences(article.references)}
+        ${relatedHtml}
         <a href="index.html" class="back-button" aria-label="Voltar para a lista de artigos">← Voltar ao Blog</a>
       `;
-      if (purifier) {
-        container.innerHTML = purifier.sanitize(pageHtml);
-      } else {
-        container.innerHTML = `
-          <div class="article-content" role="alert">
-            <h2>Conteúdo indisponível</h2>
-            <p>Não foi possível carregar com segurança o conteúdo do artigo. Atualize a página.</p>
-            <a href="index.html" class="back-button ghost" aria-label="Voltar para a lista de artigos">
-              <i class="fas fa-arrow-left" aria-hidden="true"></i> <span>Voltar ao Blog</span>
-            </a>
-          </div>
-        `;
-      }
+
+      container.innerHTML = purifier ? purifier.sanitize(pageHtml) : pageHtml;
       container.classList.remove("loading");
       container.removeAttribute("aria-busy");
 
@@ -147,7 +219,6 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
       setMetaTag('meta[property="og:title"]', "content", safeTitle);
       setMetaTag('meta[property="og:description"]', "content", safeExcerpt);
 
-      // ✅ Ajuste 3: preferir .webp no Open Graph
       const ogImage = article.image ? `./${article.image}-800.webp` : "";
       if (ogImage) {
         setMetaTag('meta[property="og:image"]', "content", ogImage);
@@ -157,7 +228,6 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
       setMetaTag('meta[name="twitter:title"]', "content", safeTitle);
       setMetaTag('meta[name="twitter:description"]', "content", safeExcerpt);
 
-      // ✅ Ajuste 4: keywords vindas das tags
       if (article.tags?.length) {
         setMetaTag('meta[name="keywords"]', "content", article.tags.join(", "));
       }
@@ -175,25 +245,4 @@ fetch("./articles.json?v=" + Date.now(), { cache: "no-store" })
       container.classList.remove("loading");
       console.error(err);
     });
-
-  function renderTags(tags = []) {
-    if (!tags.length) return "";
-    return `
-      <div class="tags">
-        ${tags.map(t => `<a class="tag" aria-label="Tag ${t}" href="index.html?tag=${encodeURIComponent(t.toLowerCase())}">#${t}</a>`).join(" ")}
-      </div>
-    `;
-  }
-
-  function renderReferences(refs = []) {
-    if (!refs.length) return "";
-    return `
-      <aside class="article-references">
-        <h3>Referências</h3>
-        <ul>
-          ${refs.map(u => `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`).join("")}
-        </ul>
-      </aside>
-    `;
-  }
 })();
