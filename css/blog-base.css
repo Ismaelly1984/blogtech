@@ -384,3 +384,47 @@ input[type="button"] {
   color: #fff;
 }
 
+/* =========================================================
+   Responsividade extra (≤480px)
+========================================================= */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .post-title {
+    font-size: 1rem;
+  }
+  .post-excerpt {
+    font-size: 0.85rem;
+  }
+
+  .footer {
+    padding: 20px 15px;
+  }
+  .footer-grid {
+    gap: 1rem;
+  }
+  .footer-tagline {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .tags .tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+  }
+}
