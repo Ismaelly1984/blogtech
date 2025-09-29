@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js: por que ele é o motor da Web Moderna</title>
+  <meta name="description" content="Node.js: por que ele é o motor da Web Moderna O Node.js se tornou peça central do desenvolvimento moderno por combinar JavaScript no servidor , V8…" />
+  <link rel="stylesheet" href="../css/blog-base.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="back-link" href="../blog.html">Voltar ao Blog</a>
+    </nav>
+  </header>
+  <main class="article-main">
+    <article class="article-content-wrapper">
+      <h1 class="article-title">Node.js: por que ele é o motor da Web Moderna</h1>
+      <div class="article-meta"><time class="article-date" datetime="2025-09-12">11 de setembro de 2025</time> • <span class="article-author">por Ismael Nunes</span></div>
+      <div class="article-content"><h1>Node.js: por que ele é o motor da Web Moderna</h1>
+<p>O <strong>Node.js</strong> se tornou peça central do desenvolvimento moderno por combinar <strong>JavaScript no servidor</strong>, <strong>V8</strong> (engine de alto desempenho) e um <strong>loop de eventos</strong> eficiente via <strong>libuv</strong>. Esse conjunto permite lidar com <strong>muitas conexões simultâneas</strong> com <strong>baixa latência</strong>, ideal para <strong>APIs</strong>, <strong>apps em tempo real</strong> (chat, colaboração, notificações), <strong>streaming</strong> e <strong>microsserviços</strong>.</p>
+<h2>O que faz o Node.js ser diferente</h2>
+<ul>
+<li><strong>Event-driven + I/O não bloqueante</strong>: a thread principal despacha operações de entrada/saída e continua atendendo outras requisições enquanto o sistema operacional faz o trabalho pesado.</li>
+<li><strong>V8</strong>: engine que executa JavaScript com JIT otimizado, garantindo performance de execução.</li>
+<li><strong>libuv</strong>: biblioteca em C que implementa o <strong>event loop</strong>, <strong>thread pool</strong> e primitivas assíncronas para rede, sistema de arquivos e processos.</li>
+<li><strong>Mesmo idioma em toda a stack</strong>: do navegador ao servidor, o que reduz atrito cognitivo e acelera times full-stack.</li>
+</ul>
+<h2>Como funciona (em alto nível)</h2>
+<ol>
+<li><strong>Você faz uma chamada I/O</strong> (ex.: <code>fs.readFile</code>, requisições HTTP, acesso a banco).  </li>
+<li>O <strong>libuv</strong> agenda a operação (kernel + thread pool quando necessário).  </li>
+<li>A <strong>thread principal</strong> segue livre; quando a operação termina, o <strong>event loop</strong> enfileira um <strong>callback/promise</strong>.  </li>
+<li>Seu código <strong>processa o resultado</strong> sem travar o servidor.</li>
+</ol>
+<blockquote>
+<p>Para <strong>trabalho CPU-bound</strong> (hashing pesado, parsing complexo, IA local), use <strong><code>worker_threads</code></strong> ou <strong>sharding/cluster</strong> para paralelizar.</p>
+</blockquote>
+<h2>Onde o Node.js brilha</h2>
+<ul>
+<li><strong>APIs e BFFs</strong>: manipulação de I/O de alto volume (REST/GraphQL/Streaming).  </li>
+<li><strong>Tempo real</strong>: websockets, pub/sub, colaboração ao vivo, dashboards.  </li>
+<li><strong>Gateways e Edge</strong>: proxies, SSR/SSG, funções de borda.  </li>
+<li><strong>CLIs e automações</strong>: scripts multiplataforma com o vasto ecossistema NPM.</li>
+</ul>
+<h2>Boas práticas (para desempenho e robustez)</h2>
+<ul>
+<li><strong>Evite APIs síncronas</strong> em produção (<code>readFileSync</code>, <code>bcryptSync</code> etc.) em rotas.  </li>
+<li>Prefira <strong><code>async/await</code></strong> e <strong>streams</strong> quando houver grandes volumes de dados.  </li>
+<li>Trate <strong>backpressure</strong> em streams (pipe/await drain).  </li>
+<li><strong>Observabilidade</strong>: logs estruturados, métricas e <em>tracing</em> distribuído.  </li>
+<li><strong>Escala</strong>: containers, <strong>cluster/PM2</strong>, horizontalização e cache.  </li>
+<li><strong>Segurança</strong>: validação de entrada, <code>helmet</code>, varredura de dependências, segredos fora do código.</li>
+</ul>
+<h2>Stack sugerida (opcional)</h2>
+<ul>
+<li><strong>Frameworks</strong>: Express / Fastify / NestJS.  </li>
+<li><strong>Banco</strong>: Postgres + Prisma/Drizzle.  </li>
+<li><strong>Testes</strong>: Vitest/Jest + Supertest.  </li>
+<li><strong>CI/CD</strong>: lint, testes, SCA (security), deploy automatizado.</li>
+</ul>
+<h2>Exemplo rápido: servidor HTTP sem framework</h2>
+<pre><code class="language-js">import http from &#39;node:http&#39;
+
+const server = http.createServer((req, res) =&gt; {
+  if (req.url === &#39;/saude&#39;) {
+    res.writeHead(200, { &#39;Content-Type&#39;: &#39;application/json&#39; })
+    return res.end(JSON.stringify({ ok: true }))
+  }
+  res.writeHead(200, { &#39;Content-Type&#39;: &#39;text/plain&#39; })
+  res.end(&#39;Hello, Node.js!&#39;)
+})
+
+server.listen(3000, () =&gt; console.log(&#39;Servidor em http://localhost:3000&#39;))
+</code></pre>
+<h2>Quando considerar outra abordagem</h2>
+<ul>
+<li><strong>CPU-bound pesado</strong> e <em>latency-sensitive</em> → combine Node com <strong><code>worker_threads</code></strong>, serviços especializados (Go/Rust) ou filas assíncronas.  </li>
+<li><strong>Operações síncronas de longa duração</strong> dentro da request → mova para <em>jobs</em>.</li>
+</ul>
+<h2>Conclusão</h2>
+<p>Node.js é o “motor” da Web moderna por <strong>escalar I/O com eficiência</strong> e <strong>agilizar times full-stack</strong>. Com boas práticas (assíncrono, observabilidade, segurança) e a escolha certa de padrões (workers/cluster para CPU), você obtém <strong>alto throughput</strong> e <strong>tempo de resposta consistente</strong> para APIs e apps em tempo real.</p>
+</div>
+      <ul class="article-tags"><li class="article-tag">Node.js</li><li class="article-tag">Backend</li><li class="article-tag">JavaScript</li><li class="article-tag">APIs</li><li class="article-tag">Event Loop</li><li class="article-tag">V8</li><li class="article-tag">libuv</li><li class="article-tag">Escalabilidade</li></ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p class="footer-copy">&copy; 2025 BlogTech. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

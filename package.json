@@ -1,0 +1,23 @@
+{
+  "name": "blogtech",
+  "version": "1.0.0",
+  "description": "Site estático do blog “IsmaelDev” com listagem de artigos, página de post individual, busca com filtro por tags, suporte a Markdown, highlight de código e imagens responsivas. Feito para rodar 100% no front-end, ideal para GitHub Pages.",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ismaelly1984/blogtech.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ismaelly1984/blogtech/issues"
+  },
+  "homepage": "https://github.com/Ismaelly1984/blogtech#readme",
+  "dependencies": {
+    "marked": "^9.1.6"
+  }
+}

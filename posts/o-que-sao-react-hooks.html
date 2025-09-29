@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O que são React Hooks?</title>
+  <meta name="description" content="O que são React Hooks? Os React Hooks são funções introduzidas no React 16.8 que permitem usar estado, ciclo de vida, contexto e refs em componentes…" />
+  <link rel="stylesheet" href="../css/blog-base.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="back-link" href="../blog.html">Voltar ao Blog</a>
+    </nav>
+  </header>
+  <main class="article-main">
+    <article class="article-content-wrapper">
+      <h1 class="article-title">O que são React Hooks?</h1>
+      <div class="article-meta"><time class="article-date" datetime="2025-01-15">14 de janeiro de 2025</time> • <span class="article-author">por Ismael Nunes</span></div>
+      <div class="article-content"><h1>O que são React Hooks?</h1>
+<p>Os <strong>React Hooks</strong> são funções introduzidas no React 16.8 que permitem usar <strong>estado, ciclo de vida, contexto e refs</strong> em <strong>componentes funcionais</strong>, sem precisar de classes. Em vez de extender <code>React.Component</code>, você usa funções como <code>useState</code>, <code>useEffect</code> e <code>useContext</code> para compor comportamento de forma simples e reutilizável.</p>
+<blockquote>
+<p>Em resumo: Hooks permitem <strong>organizar a lógica por funcionalidade</strong> (fetch, subscrições, formulários etc.), facilitando reuso e manutenção.</p>
+</blockquote>
+<h2>Por que os Hooks existem</h2>
+<p>Antes dos Hooks, a reutilização de lógica com estado dependia de <em>patterns</em> como HOCs e <em>render props</em>, que criavam <strong>árvores profundas e difíceis de ler</strong>. Com Hooks, você extrai a lógica para <strong>Custom Hooks</strong> (funções que começam com <code>use*</code>) e os reaproveita onde quiser, sem alterar a hierarquia de componentes.</p>
+<h2>Regras dos Hooks</h2>
+<ol>
+<li><strong>Chame Hooks no topo</strong> do componente/Hook (nunca dentro de <code>if</code>, <code>for</code> ou funções aninhadas).</li>
+<li><strong>Chame Hooks apenas em componentes React</strong> (funções de componente) <strong>ou em Custom Hooks</strong>.</li>
+</ol>
+<blockquote>
+<p>Essas regras garantem que o React associe corretamente cada chamada de Hook ao seu estado.</p>
+</blockquote>
+<h2>Principais Hooks (com exemplos)</h2>
+<h3><code>useState</code></h3>
+<p>Estado local simples e direto.</p>
+<pre><code class="language-jsx">import { useState } from &#39;react&#39;
+
+export function Contador() {
+  const [count, setCount] = useState(0)
+  return (
+    &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;
+      Clicado {count} vezes
+    &lt;/button&gt;
+  )
+}
+</code></pre>
+<h3><code>useEffect</code></h3>
+<p>Efeitos colaterais (fetch de dados, listeners, timers). Use o <strong>array de dependências</strong> para controlar quando rodar.</p>
+<pre><code class="language-jsx">import { useEffect, useState } from &#39;react&#39;
+
+export function Usuarios() {
+  const [data, setData] = useState([])
+
+  useEffect(() =&gt; {
+    let cancelado = false
+    fetch(&#39;https://api.exemplo.dev/users&#39;)
+      .then(r =&gt; r.json())
+      .then(d =&gt; { if (!cancelado) setData(d) })
+    return () =&gt; { cancelado = true }
+  }, []) // roda só na montagem
+
+  return &lt;ul&gt;{data.map(u =&gt; &lt;li key={u.id}&gt;{u.nome}&lt;/li&gt;)}&lt;/ul&gt;
+}
+</code></pre>
+<h3><code>useContext</code></h3>
+<p>Consome valores de um <strong>Context</strong> sem <em>prop drilling</em>.</p>
+<pre><code class="language-jsx">import { useContext } from &#39;react&#39;
+import { TemaContext } from &#39;./tema&#39;
+
+export function Botao() {
+  const tema = useContext(TemaContext)
+  return &lt;button style={{ background: tema.bg, color: tema.fg }}&gt;OK&lt;/button&gt;
+}
+</code></pre>
+<h3><code>useMemo</code> e <code>useCallback</code></h3>
+<p>Otimização: memorizam <strong>valores</strong> e <strong>funcões</strong> caros de recalcular.</p>
+<pre><code class="language-jsx">const total = useMemo(() =&gt; calcularTotal(items), [items])
+const onClick = useCallback(() =&gt; enviar(total), [total])
+</code></pre>
+<h3><code>useRef</code></h3>
+<p>Guarda um valor <strong>mutável</strong> que persiste entre renders (ex.: acesso a DOM, IDs, caches leves).</p>
+<pre><code class="language-jsx">const inputRef = useRef(null)
+// inputRef.current aponta para o elemento &lt;input&gt;
+</code></pre>
+<h3><code>useReducer</code></h3>
+<p>Estado <strong>complexo</strong> com múltiplas transições (parecido com Redux):</p>
+<pre><code class="language-jsx">function reducer(state, action) {
+  switch (action.type) {
+    case &#39;add&#39;: return { ...state, itens: [...state.itens, action.item] }
+    case &#39;clear&#39;: return { ...state, itens: [] }
+    default: return state
+  }
+}
+</code></pre>
+<h2>Custom Hooks (reuso de lógica)</h2>
+<p>Exemplo de Hook para título da página e contagem:</p>
+<pre><code class="language-jsx">function useTitulo(contagem) {
+  useEffect(() =&gt; { document.title = `Notifs: ${contagem}` }, [contagem])
+}
+
+export function Notificacoes({ lista }) {
+  useTitulo(lista.length)
+  return &lt;span&gt;Total: {lista.length}&lt;/span&gt;
+}
+</code></pre>
+<h2>Boas práticas</h2>
+<ul>
+<li><strong>Separe efeitos por responsabilidade</strong> (um <code>useEffect</code> por tópico).\</li>
+<li>Evite dependências faltantes: use a regra do ESLint <code>react-hooks/exhaustive-deps</code>.</li>
+<li>Para <strong>fetch</strong>, trate cancelamento/limpeza e erros (retry/backoff quando necessário).</li>
+<li>Preferir <strong>Custom Hooks</strong> para formulários, cache de dados, integração com APIs, etc.</li>
+</ul>
+<h2>Erros comuns</h2>
+<ul>
+<li>Chamar Hooks <strong>condicionalmente</strong> (quebra a ordem).\</li>
+<li>Usar <code>useEffect</code> para tudo: para <strong>computações puras</strong>, prefira <code>useMemo</code>.\</li>
+<li>Esquecer o <strong>array de dependências</strong> ou preenchê-lo errado.</li>
+</ul>
+<h2>Conclusão</h2>
+<p>Hooks tornam componentes <strong>funcionais, legíveis e fáceis de evoluir</strong>. Dominar <code>useState</code>, <code>useEffect</code>, <code>useContext</code> e a criação de <strong>Custom Hooks</strong> é essencial para construir UIs robustas com React.</p>
+</div>
+      <ul class="article-tags"><li class="article-tag">React</li><li class="article-tag">Hooks</li><li class="article-tag">JavaScript</li><li class="article-tag">Frontend</li></ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p class="footer-copy">&copy; 2025 BlogTech. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

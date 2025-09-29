@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O que é IA Generativa e como ela está mudando o desenvolvimento de software</title>
+  <meta name="description" content="O que é IA Generativa e como ela está mudando o desenvolvimento de software A IA generativa é um conjunto de técnicas que permite a modelos de…" />
+  <link rel="stylesheet" href="../css/blog-base.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="back-link" href="../blog.html">Voltar ao Blog</a>
+    </nav>
+  </header>
+  <main class="article-main">
+    <article class="article-content-wrapper">
+      <h1 class="article-title">O que é IA Generativa e como ela está mudando o desenvolvimento de software</h1>
+      <div class="article-meta"><time class="article-date" datetime="2025-09-12">11 de setembro de 2025</time> • <span class="article-author">por Ismael Nunes</span></div>
+      <div class="article-content"><h1>O que é IA Generativa e como ela está mudando o desenvolvimento de software</h1>
+<p>A <strong>IA generativa</strong> é um conjunto de técnicas que permite a modelos de linguagem (LLMs) e outros modelos criarem conteúdo novo — texto, código, imagens, áudio — a partir de instruções em linguagem natural (prompts). No desenvolvimento de software, isso significa <strong>gerar trechos de código, testes, documentação, revisões e até planos de arquitetura</strong> de forma assistida.</p>
+<blockquote>
+<p>Em termos práticos, ela adiciona um &quot;par-programador&quot; virtual ao seu fluxo de trabalho: você descreve a intenção e recebe sugestões, que podem ser aceitas, editadas ou descartadas.</p>
+</blockquote>
+<h2>Como funciona (em 5 linhas)</h2>
+<ol>
+<li><strong>LLMs</strong> (baseados em <em>transformers</em>) aprendem padrões estatísticos de grandes corpora de código e texto.</li>
+<li><strong>Prompting</strong> guia o modelo sobre a tarefa (ex.: &quot;Escreva uma função em Node que…&quot;).</li>
+<li><strong>RAG</strong> (Retrieval Augmented Generation) injeta contexto do seu repositório/docs para respostas mais precisas.</li>
+<li><strong>Fine-tuning</strong> e <strong>instrução</strong> adaptam o modelo ao seu domínio/código-base.</li>
+<li><strong>Guardrails/Evals</strong> monitoram qualidade, segurança, vieses e conformidade.</li>
+</ol>
+<h2>Onde ela impacta o ciclo de desenvolvimento</h2>
+<ul>
+<li><strong>Exploração e boilerplate</strong>: criação rápida de scaffolds, rotas, DTOs, migrations.</li>
+<li><strong>Codificação assistida</strong>: autocompletes, geração de funções e padrões recorrentes.</li>
+<li><strong>Testes</strong>: geração de testes unitários e E2E, <em>mocks</em> e dados sintéticos.</li>
+<li><strong>Refatoração &amp; documentação</strong>: explicações linha a linha, <em>docstrings</em>, READMEs e <em>changelogs</em>.</li>
+<li><strong>Code review</strong>: resumos de PR, checagens de estilo e sugestões de melhoria.</li>
+<li><strong>DevEx &amp; produtividade</strong>: redução de tempo em tarefas repetitivas, foco no design e nos casos de negócio.</li>
+</ul>
+<h3>Sinais de adoção e ganhos reportados</h3>
+<ul>
+<li>Pesquisas de mercado mostram <strong>alta adoção de ferramentas de IA por desenvolvedores</strong> e ganhos de velocidade em tarefas comuns de codificação e PRs. Organizações relatam <strong>benefícios mensuráveis</strong> quando integram IA com boas práticas de engenharia, monitoramento e avaliação contínua.</li>
+</ul>
+<h2>Boas práticas para usar com responsabilidade</h2>
+<ol>
+<li><strong>Humano no loop</strong>: trate a IA como co-piloto; <strong>você</strong> assina o PR.</li>
+<li><strong>Contexto certo</strong>: use <em>RAG</em> ou context windows com <em>snippets</em> do seu repo e guias internos.</li>
+<li><strong>Políticas e segurança</strong>: defina o que pode/não pode ser enviado ao modelo; sanitize segredos.</li>
+<li><strong>Avaliações (Evals)</strong>: crie checks automatizados para precisão, robustez e regressões.</li>
+<li><strong>Licenças e compliance</strong>: verifique compatibilidade de licenças e atribuição quando relevante.</li>
+<li><strong>Observabilidade</strong>: registre prompts/respostas para auditoria e melhoria contínua.</li>
+</ol>
+<h2>Stack de referência (prático)</h2>
+<ul>
+<li><strong>Ferramentas de codificação</strong>: IDE + assistente (ex.: Copilot/Chat-based) com <em>contexto do projeto</em>.</li>
+<li><strong>RAG</strong>: índice semântico (docs, ADRs, código) + <em>prompt templates</em> por tarefa (testes, docs, refactor).</li>
+<li><strong>CI/CD</strong>: <em>jobs</em> que rodam <em>linters</em>, testes, <em>security scan</em> e <em>evals</em> específicos para respostas da IA.</li>
+<li><strong>Governança</strong>: políticas baseadas em frameworks como <strong>NIST AI RMF</strong>; revisão periódica de riscos.</li>
+</ul>
+<h2>Como começar em um dia</h2>
+<ol>
+<li><strong>Projeto piloto</strong>: escolha um serviço com baixo risco e alto volume de tarefas repetitivas.</li>
+<li><strong>Integração mínima</strong>: habilite assistente na IDE e um <em>retrieval</em> simples com suas docs internas.</li>
+<li><strong>Checklist de PR com IA</strong>: inclua itens de verificação (segurança, testes, licenças, logs).</li>
+<li><strong>Métricas</strong>: acompanhe tempo até merge, bugs por PR e cobertura de testes antes/depois.</li>
+<li><strong>Itere</strong>: ajuste <em>prompts</em>, contexto e políticas conforme os <em>insights</em> das métricas.</li>
+</ol>
+<h2>Limitações e riscos comuns</h2>
+<ul>
+<li><strong>Alucinação</strong> (respostas convincentes, porém incorretas) → mitigue com <em>RAG</em>, testes e <em>evals</em>.</li>
+<li><strong>Código inseguro</strong> → rode <em>SAST/DAST</em> e revise <em>secrets</em>.</li>
+<li><strong>Lock-in de ferramenta/modelo</strong> → prefira camadas de abstração e <em>adapters</em>.</li>
+<li><strong>Privacidade/confidencialidade</strong> → segregue dados sensíveis e use modos enterprise quando possível.</li>
+</ul>
+<h2>Conclusão</h2>
+<p>A IA generativa <strong>não substitui</strong> desenvolvedores — ela amplia o alcance do time. Equipes que combinam <strong>contexto adequado, automação de qualidade e governança</strong> colhem ganhos reais de produtividade, mantendo segurança e confiabilidade. O próximo diferencial competitivo estará **menos em “usar IA” e mais em <strong>como</strong> integrá-la ao seu processo de engenharia.</p>
+</div>
+      <ul class="article-tags"><li class="article-tag">IA</li><li class="article-tag">Inteligência Artificial</li><li class="article-tag">DevTools</li><li class="article-tag">Produtividade</li><li class="article-tag">Engenharia de Software</li></ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p class="footer-copy">&copy; 2025 BlogTech. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

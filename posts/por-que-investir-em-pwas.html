@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Por que investir em PWAs?</title>
+  <meta name="description" content="Por que investir em PWAs? Progressive Web Apps (PWAs) combinam o alcance da web com a experiência de aplicativos nativos: instalação na tela inicial…" />
+  <link rel="stylesheet" href="../css/blog-base.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="back-link" href="../blog.html">Voltar ao Blog</a>
+    </nav>
+  </header>
+  <main class="article-main">
+    <article class="article-content-wrapper">
+      <h1 class="article-title">Por que investir em PWAs?</h1>
+      <div class="article-meta"><time class="article-date" datetime="2025-06-10">09 de junho de 2025</time> • <span class="article-author">por Ismael Nunes</span></div>
+      <div class="article-content"><h1>Por que investir em PWAs?</h1>
+<p><strong>Progressive Web Apps (PWAs)</strong> combinam o alcance da web com a experiência de aplicativos nativos: <strong>instalação na tela inicial</strong>, <strong>funcionamento offline</strong>, <strong>notificações push</strong> e <strong>desempenho superior</strong>. Para negócios, isso significa <strong>mais conversões</strong>, <strong>menos custos</strong> (uma base de código) e <strong>experiências rápidas</strong> mesmo em redes ruins.</p>
+<h2>O que torna uma PWA especial</h2>
+<ul>
+<li><strong>Instalável</strong>: aparece na tela inicial, abre em modo standalone (sem barra do navegador).</li>
+<li><strong>Offline-first</strong>: <em>Service Worker</em> intercepta requisições e serve do cache quando sem conexão.</li>
+<li><strong>Rápida e confiável</strong>: estratégias de cache e pré-carregamento deixam a navegação instantânea.</li>
+<li><strong>Segura por padrão</strong>: requer <strong>HTTPS</strong> para habilitar Service Workers.</li>
+</ul>
+<h2>Elementos-chave</h2>
+<ol>
+<li><strong>Manifesto Web (<code>manifest.json</code>)</strong>: nome, ícones, cores e preferências de exibição.</li>
+<li><strong>Service Worker</strong>: script que roda em segundo plano, gerencia <strong>cache</strong>, <strong>push</strong> e <strong>sync</strong>.</li>
+<li><strong>HTTPS</strong>: obrigatório (exceto <code>localhost</code>).</li>
+</ol>
+<h2>Exemplo mínimo de Service Worker</h2>
+<pre><code class="language-js">// sw.js
+const CACHE = &#39;app-v1&#39;
+const ASSETS = [ &#39;/&#39;, &#39;/index.html&#39;, &#39;/styles.css&#39;, &#39;/app.js&#39; ]
+
+self.addEventListener(&#39;install&#39;, e =&gt; {
+  e.waitUntil(caches.open(CACHE).then(c =&gt; c.addAll(ASSETS)))
+})
+
+self.addEventListener(&#39;fetch&#39;, e =&gt; {
+  e.respondWith(
+    caches.match(e.request).then(resp =&gt; resp || fetch(e.request))
+  )
+})
+</code></pre>
+<h2>Estratégias de cache (quando usar)</h2>
+<ul>
+<li><strong>Cache first</strong>: ícones, fontes, CSS/JS versionados (rápido).</li>
+<li><strong>Network first</strong>: conteúdo dinâmico (ex.: feed), com <em>fallback</em> ao cache quando offline.</li>
+<li><strong>Stale-while-revalidate</strong>: serve cache instantâneo e atualiza ao fundo.</li>
+</ul>
+<h2>Métricas e SEO</h2>
+<p>Use <strong>Lighthouse</strong> e <strong>Core Web Vitals</strong> (LCP, CLS, INP) para auditar performance e qualificação PWA. Uma PWA bem implementada tende a melhorar <strong>retenção</strong> e <strong>conversão</strong>, além de reduzir <strong>abandono</strong> em conexões lentas.</p>
+<h2>Quando <strong>não</strong> usar apenas PWA</h2>
+<p>Se você precisa de acesso profundo a hardware específico (Bluetooth de baixo nível, sensores exclusivos) ou lojas de apps por motivos de distribuição, considere <strong>estratégia híbrida</strong> (PWA + nativo). Para a maioria dos casos web, PWA cobre 80–90% das necessidades.</p>
+<h2>Passos práticos em 1 dia</h2>
+<ol>
+<li>Gerar <code>manifest.json</code> com ícones.\</li>
+<li>Adicionar <code>sw.js</code> e registrar no <code>index.html</code>.\</li>
+<li>Auditar com Lighthouse e aplicar melhorias (cache, pré-carregamento crítico).\</li>
+<li>Configurar HTTPS e deploy.\</li>
+<li>Medir conversão/engajamento e iterar.</li>
+</ol>
+<h2>Conclusão</h2>
+<p>Investir em PWA é apostar em <strong>experiências rápidas, offline e instaláveis</strong> com <strong>um único código</strong> para web e mobile. Resultado: mais alcance, menos custo e usuários mais satisfeitos.</p>
+</div>
+      <ul class="article-tags"><li class="article-tag">PWA</li><li class="article-tag">Frontend</li><li class="article-tag">Mobile</li><li class="article-tag">Web</li></ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p class="footer-copy">&copy; 2025 BlogTech. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

@@ -4,6 +4,67 @@
 ========================================== */
 
 /* -------- Estrutura geral -------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: color-mix(in oklab, var(--bg) 95%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.site-nav {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--t-base), transform var(--t-base);
+}
+
+.back-link::before {
+  content: '\2190';
+  font-size: 1rem;
+}
+
+.back-link:hover {
+  color: color-mix(in oklab, var(--primary) 80%, black 10%);
+  transform: translateX(-2px);
+  text-decoration: none;
+}
+
+.article-main {
+  padding: clamp(72px, 6vw, 100px) 20px 80px;
+  padding-top: calc(clamp(72px, 6vw, 100px) + env(safe-area-inset-top, 0px));
+  background: var(--bg);
+  color: var(--text);
+}
+
+.article-content-wrapper {
+  background: color-mix(in oklab, var(--panel) 98%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
+  border-radius: var(--radius);
+  margin: 0 auto;
+  max-width: 900px;
+  padding: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
+  box-shadow: var(--shadow);
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .article {
   padding: clamp(72px, 6vw, 100px) 20px 80px;
   padding-top: calc(clamp(72px, 6vw, 100px) + env(safe-area-inset-top, 0px));
@@ -65,6 +126,28 @@
   box-shadow: var(--shadow);
 }
 .article-content pre code { background: none; color: inherit; padding: 0; }
+
+/* -------- Tags -------- */
+.article-tags {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.article-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  color: var(--primary);
+  background: color-mix(in oklab, var(--primary) 15%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, transparent);
+}
 
 /* -------- Capa -------- */
 .article-media {
@@ -161,6 +244,22 @@
   background: var(--primary);
 }
 
+/* -------- Rodapé estático -------- */
+.site-footer {
+  margin-top: 4rem;
+  padding: 2.5rem 20px 3rem;
+  background: color-mix(in oklab, var(--panel) 96%, transparent);
+  border-top: 1px solid var(--border);
+}
+
+.site-footer .footer-copy {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 /* -------- Skeleton -------- */
 #article-content.loading { min-height: calc(100vh - 220px); }
 .skeleton {
@@ -177,6 +276,9 @@
 
 /* -------- Responsivo -------- */
 @media (max-width: 768px) {
+  .site-nav { padding: 0.75rem 15px; }
+  .article-main { padding: 60px 15px; }
+  .article-content-wrapper { padding: 1.5rem 1.1rem; }
   .article { padding: 60px 15px; }
   .article-title { font-size: 1.6rem; }
   .article-content { font-size: 1rem; }

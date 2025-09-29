@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js: O Motor da Web Moderna</title>
+  <meta name="description" content="Node.js: O Motor da Web Moderna O Node.js revolucionou o backend ao trazer JavaScript para o servidor com um modelo orientado a eventos e I/O não…" />
+  <link rel="stylesheet" href="../css/blog-base.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="back-link" href="../blog.html">Voltar ao Blog</a>
+    </nav>
+  </header>
+  <main class="article-main">
+    <article class="article-content-wrapper">
+      <h1 class="article-title">Node.js: O Motor da Web Moderna</h1>
+      <div class="article-meta"><time class="article-date" datetime="2025-07-12">11 de julho de 2025</time> • <span class="article-author">por Ismael Nunes</span></div>
+      <div class="article-content"><h1>Node.js: O Motor da Web Moderna</h1>
+<p>O <strong>Node.js</strong> revolucionou o backend ao trazer <strong>JavaScript para o servidor</strong> com um modelo <strong>orientado a eventos</strong> e <strong>I/O não bloqueante</strong>. Com o motor <strong>V8</strong>, o Node executa JS com alta performance e lida com <strong>milhares de conexões simultâneas</strong> usando um <strong>event loop</strong> eficiente (via <strong>libuv</strong>).</p>
+<h2>Por que Node.js</h2>
+<ul>
+<li><strong>Mesma linguagem</strong> no cliente e no servidor (menos atrito para times full-stack).\</li>
+<li><strong>Alto throughput</strong> em cenários I/O-bound (APIs, gateways, websockets).\</li>
+<li><strong>Ecossistema NPM</strong> gigantesco (bibliotecas para praticamente tudo).\</li>
+<li><strong>Streams</strong> nativas (ideal para streaming e processamento incremental).</li>
+</ul>
+<h2>Como funciona (visão rápida)</h2>
+<ol>
+<li>A requisição chega e seu handler dispara operações de I/O assíncronas.\</li>
+<li>O Node <strong>não bloqueia</strong>: a thread principal segue atendendo outras conexões.\</li>
+<li>Quando o I/O termina, o <strong>event loop</strong> agenda o callback/promise com o resultado.\</li>
+<li>Seu código responde sem travar o servidor.</li>
+</ol>
+<h2>Boas práticas</h2>
+<ul>
+<li>Evite APIs <strong>síncronas</strong> no caminho da requisição.\</li>
+<li>Use <code>async/await</code> e <strong>streams</strong> para dados grandes.\</li>
+<li><strong>Observabilidade</strong>: logs estruturados, métricas e tracing.\</li>
+<li><strong>Escala</strong>: múltiplos processos (Cluster/PM2), containers e cache.</li>
+</ul>
+<h2>Exemplo com Express</h2>
+<pre><code class="language-js">import express from &#39;express&#39;
+const app = express()
+
+app.get(&#39;/saude&#39;, (req, res) =&gt; res.json({ ok: true }))
+
+app.get(&#39;/hello&#39;, (req, res) =&gt; {
+  res.type(&#39;text/plain&#39;).send(&#39;Hello, Node.js!&#39;)
+})
+
+app.listen(3000, () =&gt; console.log(&#39;Rodando em http://localhost:3000&#39;))
+</code></pre>
+<h2>Quando não usar somente Node</h2>
+<ul>
+<li><strong>CPU-bound pesado</strong> (hashing massivo, imagem/vídeo): use <code>worker_threads</code>/filas ou serviços em Go/Rust.\</li>
+<li><strong>Acesso nativo profundo</strong> do SO/hardware: pode exigir outra stack.</li>
+</ul>
+<h2>Conclusão</h2>
+<p>Node.js tornou-se o <strong>motor da web</strong> por <strong>escalar I/O</strong> com eficiência e acelerar times. Com boas práticas, entrega <strong>APIs rápidas</strong> e <strong>apps em tempo real</strong> de maneira previsível e econômica.</p>
+</div>
+      <ul class="article-tags"><li class="article-tag">Node.js</li><li class="article-tag">Backend</li><li class="article-tag">JavaScript</li><li class="article-tag">APIs</li></ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p class="footer-copy">&copy; 2025 BlogTech. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
